@@ -1,4 +1,5 @@
 #include "sleepy_discord/websocketpp_websocket.h"
+#include "soci"
 
 class Rie : public SleepyDiscord::DiscordClient {
     public:
