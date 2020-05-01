@@ -8,7 +8,7 @@ using postgres::Config;
 using postgres::Connection;
 
 class Rie : public SleepyDiscord::DiscordClient {
-	CommandHandler::CommandHandler
+	CommandHandler::CommandHandler;
 };
 
 void configBuilder() {
