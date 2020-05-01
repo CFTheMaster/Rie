@@ -1,0 +1,6 @@
+[submodule "dependencies/sleepy-discord"]
+	path = dependencies/sleepy-discord
+	url = https://github.com/yourWaifu/sleepy-discord.git
+[submodule "dependencies/postgres-cxx-client"]
+	path = dependencies/postgres-cxx-client
+	url = https://github.com/anatoliifrolov/postgres-cxx-client.git

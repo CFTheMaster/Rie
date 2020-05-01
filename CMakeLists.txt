@@ -4,7 +4,7 @@ project(Rie)
 add_executable(Rie Rie.cpp)
 
 add_subdirectory(dependencies/sleepy-discord)
-add_subdirectory(dependencies/soci)
+add_subdirectory(dependencies/postgres-cxx-client)
 
 target_link_libraries(Rie sleepy-discord)
-target_link_libraries(Rie soci)
+target_link_libraries(Rie postgres-cxx-client)
