@@ -4,3 +4,6 @@
 [submodule "dependencies/postgres-cxx-client"]
 	path = dependencies/postgres-cxx-client
 	url = https://github.com/anatoliifrolov/postgres-cxx-client.git
+[submodule "dependencies/dotenv"]
+	path = dependencies/dotenv
+	url = https://github.com/adeharo9/cpp-dotenv.git
