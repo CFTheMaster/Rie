@@ -1,9 +1,7 @@
 #include "sleepy_discord/websocketpp_websocket.h"
 
-namespace CommandHandler {
+class CommandHandler : public SleepyDiscord::DiscordClient {
 	std::string defaultPrefix = "Rei!";
-
-	class CommandHandler : public SleepyDiscord::DiscordClient {
 
 	public: 
 		using SleepyDiscord::DiscordClient::DiscordClient;

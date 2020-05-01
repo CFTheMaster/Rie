@@ -12,7 +12,7 @@ using postgres::Error;
 using postgres::Statement;
 
 
-namespace DatabaseWrapper {
+class DatabaseWrapper {
 
     void createTokens() {
 
