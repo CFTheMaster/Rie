@@ -1,8 +1,8 @@
 #include "sleepy_discord/websocketpp_websocket.h"
-#include "Database/Databasewrapper.cpp"
+#include <Database/DatabaseWrapper.hpp>
 #include <string>
 #include "dotenv.h"
-#include "CommandHandler/CommandHandler.cpp"
+#include "CommandHandler/CommandHandler.hpp"
 
 using postgres::Config;
 using postgres::Connection;
