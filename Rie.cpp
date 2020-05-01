@@ -2,19 +2,13 @@
 #include "Database/Databasewrapper.cpp"
 #include <string>
 #include "dotenv.h"
+#include "CommandHandler/CommandHandler.cpp"
 
 using postgres::Config;
 using postgres::Connection;
 
 class Rie : public SleepyDiscord::DiscordClient {
-    public:
-        using SleepyDiscord::DiscordClient::DiscordClient;
-
-        onMessage(SleepyDiscord::Message message) override {
-			if (message.startsWith("change! hello"))
-				sendMessage(message.channelID, "Hello " + message.author.username + "#" + message.author.discriminator);
-		}
-
+	CommandHandler::CommandHandler
 };
 
 void configBuilder() {
