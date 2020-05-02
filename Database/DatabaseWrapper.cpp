@@ -28,56 +28,35 @@ public:
 
     void poolConfig() {
         auto& dotenv = dotenv::env;
-        
-
-        Connection conn
-        {
-            Config::Builder{}
+        auto cfg = Config::Builder{}
             .user(dotenv["USERNAME"])
             .password(dotenv["PASSWORD"])
             .dbname(dotenv["DATABASE_NAME"])
-            .build()
-        };
+            .build();
+
+        Client cl{ Context::Builder{}.config(std::move(cfg)).build() };
     };
         
 
     void createTokens() {
-        auto conn = postgres::Connection();
-
-        conn.create<tokens>();
-
-        std::vector<tokens> data{ {"replace_me"} };
-        conn.insert(data.begin(), data.end());
+        poolConfig();
+        Client cl{ Context::Builder{}.prepare({"tokens", "CREATE TABLE tokens (discordToken varchar(255))"}).build() };
 
     };
 
     public:
         void createUsers() {
-            auto conn = postgres::Connection();
-
-            conn.create<users>();
+            poolConfig();
+            Client cl{ Context::Builder{}.prepare({"users", "CREATE TABLE users (userId BIGINT, blacklisted INT)"}).build() };
         };
 
 
     public:
         char readToken() {                      
-            auto& dotenv = dotenv::env;
-
-            auto cfg = Config::Builder{}
-                .user(dotenv["USERNAME"])
-                .password(dotenv["PASSWORD"])
-                .dbname(dotenv["DATABASE_NAME"])
-                .build();
-
-            Client cl{ Context::Builder{}.config(std::move(cfg)).build() };
-
-            auto conn = postgres::Connection();
+            poolConfig();
             try
             {
-                auto const res = cl.
-                    query([](Connection& conn) {
-                    return conn.exec("SELECT discordToken FROM tokens");
-                        });
+                Client cl{ Context::Builder{}.prepare({"tokens", "SELECT discordToken FROM tokens"}).build() };
             }
             catch (Error const& err)
             {
