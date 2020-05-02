@@ -12,4 +12,4 @@ add_subdirectory(dependencies/dotenv)
 
 target_link_libraries(Rie sleepy-discord)
 target_link_libraries(Rie PostgresCxxClient::PostgresCxxClient)
-target_link_libraries(Rie cpp-dotenv::dotenv)
+target_link_libraries(Rie ${CPP_DOTENV_LIB})
