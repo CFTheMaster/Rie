@@ -8,9 +8,10 @@ using postgres::Connection;
 
 class Rie : public SleepyDiscord::DiscordClient {
 	std::string defaultPrefix = "rie.";
-	using SleepyDiscord::DiscordClient::DiscordClient;
+
 	//CommandHandler cmdHandler; just testing
 public:
+	using SleepyDiscord::DiscordClient::DiscordClient;
 	void onReady() {
 		updateStatus("ready for service!", 0);
 	}
@@ -24,6 +25,7 @@ public:
 				sendMessage(message.channelID, "this is just a simple test <@!" + message.author.ID + ">");
 			}
 		}
+	};
 };
 
 int main() {
