@@ -1,5 +1,5 @@
 class CommandHandler : SleepyDiscord::DiscordClient {
-	std::string defaultPrefix = "Rie!";
+	std::string defaultPrefix = "rie.";
 public:
 	using SleepyDiscord::DiscordClient::DiscordClient;
 	CommandHandler() {}
