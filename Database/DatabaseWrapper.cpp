@@ -69,6 +69,7 @@ public:
             }
             catch (Error const& err)
             {
+                return NULL;
             }
         };
     public:
