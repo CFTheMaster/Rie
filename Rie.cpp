@@ -1,13 +1,14 @@
 #include "sleepy_discord/websocketpp_websocket.h"
-#include "Database/DatabaseWrapper.hpp"
+#include "Database/DatabaseWrapper.cpp"
 #include <string>
 #include "dotenv.h"
-#include "CommandHandler/CommandHandler.hpp"
+#include "CommandHandler/CommandHandler.cpp"
 
 using postgres::Config;
 using postgres::Connection;
 
 class Rie : public SleepyDiscord::DiscordClient {
+	using SleepyDiscord::DiscordClient::DiscordClient;
 	CommandHandler::CommandHandler;
 };
 
@@ -22,9 +23,16 @@ void configBuilder() {
 }
 
 int main() {
+	configBuilder;
 	DatabaseWrapper::createTables;
-	std::string str1(DatabaseWrapper::getToken);
-	Rie client(str1, 2);
+
+	std::stringstream strm;
+
+	strm << DatabaseWrapper::readToken;
+
+	std::string str = strm.str();
+
+	Rie client(str, 2);
 	client.run();
 	DatabaseWrapper::connectionReset;
 }

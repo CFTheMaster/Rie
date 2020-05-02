@@ -35,13 +35,16 @@ class DatabaseWrapper {
         conn.create<users>();
     }
 
-    void createTables() {
+    public void createTables() {
         createTokens;
         createUsers;
 
     }
 
-    void getToken(Connection& conn) {
+    public std::string getToken = (readToken);
+
+    public void readToken() {
+        Connection conn{};
         try
         {
             // Retrieve some data from the table.
@@ -60,4 +63,4 @@ class DatabaseWrapper {
             conn.reset();
         }
     }
-}
+};
