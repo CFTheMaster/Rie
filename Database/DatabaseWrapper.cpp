@@ -29,36 +29,39 @@ class DatabaseWrapper {
 
     };
 
-    void createUsers() {
-        Connection conn{};
+    public:
+        void createUsers() {
+            Connection conn{};
 
-        conn.create<users>();
-    };
+            conn.create<users>();
+        };
 
-    public void createTables() {
-        createTokens;
-        createUsers;
+    public:
+        void createTables() {
+                createTokens;
+                createUsers;
 
-    };
+            };
 
-    public void readToken() {
-        Connection conn{};
-        try
-        {
-            // Retrieve some data from the table.
-            auto query = "SELECT discordToken FROM tokens";
+    public:
+        void readToken() {
+            Connection conn{};
+            try
+            {
+                // Retrieve some data from the table.
+                auto query = "SELECT discordToken FROM tokens";
 
-            conn.exec(query);
-        }
-        catch (Error const& err)
-        {
-            printf(err);
-        }
-    };
-
-    void connectionReset(Connection& conn) {
-        if (!conn.isOk()) {
-            conn.reset();
-        }
-    };
+                conn.exec(query);
+            }
+            catch (Error const& err)
+            {
+                printf(err);
+            }
+        };
+    public:
+        void connectionReset(Connection& conn) {
+            if (!conn.isOk()) {
+                conn.reset();
+            }
+        };
 };
