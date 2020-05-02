@@ -16,21 +16,12 @@ public:
 		updateStatus("ready for service!", 0);
 	}
 	void onMessage(SleepyDiscord::Message message) {
-		if (!message.author.bot && message.startsWith(defaultPrefix)) {
-			std::string str = message.content;
-			str = std::cin.get();
-			std::cin.ignore(256, '.');
-
-			std::string str2("test");
-
-			std::size_t found = str.find(str2);
-			if (found = 4) {
-				if (found != std::string::npos) {
-					sendMessage(message.channelID, "this is just a simple test <@!" + message.author.ID + ">");
-				}
+		if (!message.author.bot && message.startsWith(defaultPrefix)){
+			if (message.startsWith(defaultPrefix + "test")) {
+				sendMessage(message.channelID, "this is just a simple test <@!" + message.author.ID + ">");
 			}
 			
-		}
+		};
 	};
 };
 
