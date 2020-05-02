@@ -14,11 +14,12 @@ public:
 	using SleepyDiscord::DiscordClient::DiscordClient;
 	void onReady() {
 		updateStatus("ready for service!", 0);
-	}
+		printf("Rie is fully functioning and ready for service!!!!!");
+	};
 	void onMessage(SleepyDiscord::Message message) {
 		if (!message.author.bot && message.startsWith(defaultPrefix)){
 			if (message.content == (defaultPrefix + "test")) {
-				sendMessage(message.channelID, "this is just a simple test <@!" + message.author.ID + ">");
+				sendMessage(message.channelID, "this is just a simple test, <@!" + message.author.ID + ">");
 			}
 			
 		};
