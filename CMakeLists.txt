@@ -3,7 +3,7 @@ project(Rie)
 
 add_executable(Rie Rie.cpp)
 
-include_directories(BEFORE CommandHandler Database postgres)
+include_directories(".")
 
 add_subdirectory(dependencies/sleepy-discord)
 add_subdirectory(dependencies/postgres-cxx-client)
