@@ -59,7 +59,8 @@ class DatabaseWrapper {
             }
         };
     public:
-        void connectionReset(Connection& conn) {
+        void connectionReset() {
+            Connection& conn{};
             if (!conn.isOk()) {
                 conn.reset();
             }

@@ -24,15 +24,16 @@ void configBuilder() {
 
 int main() {
 	configBuilder;
-	DatabaseWrapper::createTables;
+	DatabaseWrapper db;
+	db.createTables;
 
 	std::stringstream strm;
 
-	strm << DatabaseWrapper::readToken;
+	strm << db.readToken;
 
 	std::string str = strm.str();
 
 	Rie client(str, 2);
 	client.run();
-	DatabaseWrapper::connectionReset;
+	db.connectionReset;
 }
