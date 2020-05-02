@@ -28,13 +28,7 @@ public:
 
     void poolConfig() {
         auto& dotenv = dotenv::env;
-        auto cfg = Config::Builder{}
-            .user(dotenv["USERNAME"])
-            .password(dotenv["PASSWORD"])
-            .dbname(dotenv["DATABASE_NAME"])
-            .build();
-
-        Client cl{ Context::Builder{}.config(std::move(cfg)).build() };
+        
 
         Connection conn
         {
@@ -67,7 +61,16 @@ public:
 
     public:
         char readToken() {                      
-            Client cl{};
+            auto& dotenv = dotenv::env;
+
+            auto cfg = Config::Builder{}
+                .user(dotenv["USERNAME"])
+                .password(dotenv["PASSWORD"])
+                .dbname(dotenv["DATABASE_NAME"])
+                .build();
+
+            Client cl{ Context::Builder{}.config(std::move(cfg)).build() };
+
             auto conn = postgres::Connection();
             try
             {
