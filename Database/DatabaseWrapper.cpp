@@ -20,14 +20,22 @@ using postgres::Config;
 class DatabaseWrapper {
 public:
     void construct() {
-        configBuilder();
+        poolConfig();
         createTokens();
         createUsers();
 
     }
 
-    void configBuilder() {
+    void poolConfig() {
         auto& dotenv = dotenv::env;
+        auto cfg = Config::Builder{}
+            .user(dotenv["USERNAME"])
+            .password(dotenv["PASSWORD"])
+            .dbname(dotenv["DATABASE_NAME"])
+            .build();
+
+        Client cl{ Context::Builder{}.config(std::move(cfg)).build() };
+
         Connection conn
         {
             Config::Builder{}
@@ -36,7 +44,8 @@ public:
             .dbname(dotenv["DATABASE_NAME"])
             .build()
         };
-    }
+    };
+        
 
     void createTokens() {
         auto conn = postgres::Connection();
