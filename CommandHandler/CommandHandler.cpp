@@ -19,5 +19,4 @@ class CommandHandler : public SleepyDiscord::DiscordClient {
 				return;
 			
 		}
-	};
 };
