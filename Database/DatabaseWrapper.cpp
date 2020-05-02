@@ -14,6 +14,7 @@ using postgres::Error;
 using postgres::Statement;
 using postgres::Client;
 using postgres::Result;
+using postgres::Config;
 
 
 class DatabaseWrapper {
