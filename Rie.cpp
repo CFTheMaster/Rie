@@ -9,7 +9,7 @@ using postgres::Connection;
 
 class Rie : public SleepyDiscord::DiscordClient {
 	using SleepyDiscord::DiscordClient::DiscordClient;
-	CommandHandler::CommandHandler;
+	CommandHandler cmdHandler();
 };
 
 void configBuilder() {

@@ -1,8 +1,6 @@
-#include <iostream>
-
 struct users {
-    long        userID;
-    int         blacklisted
+    long        userId;
+    int         blacklisted;
 
-    POSTGRES_CXX_TABLE("users", userID, blacklisted);
+    POSTGRES_CXX_TABLE("users", userId, blacklisted);
 };

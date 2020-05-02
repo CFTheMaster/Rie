@@ -1,22 +1,18 @@
-#include "sleepy_discord/websocketpp_websocket.h"
-
-class CommandHandler : public SleepyDiscord::DiscordClient {
+class CommandHandler : SleepyDiscord::DiscordClient {
 	std::string defaultPrefix = "Rei!";
+public:
+	using SleepyDiscord::DiscordClient::DiscordClient;
+	CommandHandler() {}
+	void onReady() {
+		updateStatus("ready for service!", 0);
+	}
+	void onMessage(SleepyDiscord::Message message) {
+		if (!message.author.bot && message.startsWith(defaultPrefix)) {
 
-	public: 
-		using SleepyDiscord::DiscordClient::DiscordClient;
-		void onReady() {
-			
-			using SleepyDiscord::Game;
-			Game("ready for service!", SleepyDiscord::GameType::Streaming, "https://twitch.tv/computerfreaker");
 		}
+		else return;
+	}
 
-		void onMessage(SleepyDiscord::Message message) override {
-			if (!message.author.bot && message.startsWith(defaultPrefix + "test")) {
-				sendMessage(message.channelID, "test");
-			}
-			else
-				return;
-			
-		}
+
+	
 };

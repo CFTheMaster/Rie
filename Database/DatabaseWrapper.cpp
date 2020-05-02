@@ -27,21 +27,19 @@ class DatabaseWrapper {
 
         conn.insert(data.begin(), data.end());
 
-    }
+    };
 
     void createUsers() {
         Connection conn{};
 
         conn.create<users>();
-    }
+    };
 
     public void createTables() {
         createTokens;
         createUsers;
 
-    }
-
-    public std::string getToken = (readToken);
+    };
 
     public void readToken() {
         Connection conn{};
@@ -56,11 +54,11 @@ class DatabaseWrapper {
         {
             printf(err);
         }
-    }
+    };
 
     void connectionReset(Connection& conn) {
         if (!conn.isOk()) {
             conn.reset();
         }
-    }
+    };
 };
