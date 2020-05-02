@@ -17,11 +17,11 @@ int main() {
 
 	std::stringstream strm;
 
-	strm << db.readToken;
+	strm << db.readToken();
 
 	std::string str = strm.str();
 
 	Rie client(str, 2);
 	client.run();
-	db.connectionReset;
+	db.connectionReset();
 }

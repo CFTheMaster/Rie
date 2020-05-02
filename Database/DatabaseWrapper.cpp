@@ -57,14 +57,15 @@ public:
 
 
     public:
-        void readToken() {
+        char readToken() {                      
+            Client cl{};
             auto conn = postgres::Connection();
             try
             {
-                // Retrieve some data from the table.
-                auto query = "SELECT discordToken FROM tokens";
-
-                conn.exec(query);
+                auto const res = cl.
+                    query([](Connection& conn) {
+                    return conn.exec("SELECT discordToken FROM tokens");
+                        });
             }
             catch (Error const& err)
             {
