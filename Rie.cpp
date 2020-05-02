@@ -1,7 +1,6 @@
 #include "sleepy_discord/websocketpp_websocket.h"
 #include "Database/DatabaseWrapper.cpp"
 #include <string>
-#include "dotenv.h"
 #include "CommandHandler/CommandHandler.cpp"
 
 using postgres::Config;
@@ -14,7 +13,7 @@ class Rie : public SleepyDiscord::DiscordClient {
 
 int main() {
 	DatabaseWrapper db;
-	db.createTables;
+	db.construct();
 
 	std::stringstream strm;
 

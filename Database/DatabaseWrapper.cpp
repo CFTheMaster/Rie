@@ -5,18 +5,31 @@
 #include <postgres/Postgres.h>
 #include "schemas/tokens.cpp"
 #include "schemas/users.cpp"
+#include "dotenv.h"
 
 using postgres::Command;
 using postgres::Connection;
+using postgres::Context;
 using postgres::Error;
 using postgres::Statement;
+using postgres::Client;
+using postgres::Result;
 
 
 class DatabaseWrapper {
+public:
+    void construct() {
+        configBuilder();
+        createTokens();
+        createUsers();
+
+    }
 
     void configBuilder() {
         auto& dotenv = dotenv::env;
-        Connection& conn{ Config::Builder{}
+        Connection conn
+        {
+            Config::Builder{}
             .user(dotenv["USERNAME"])
             .password(dotenv["PASSWORD"])
             .dbname(dotenv["DATABASE_NAME"])
@@ -25,36 +38,26 @@ class DatabaseWrapper {
     }
 
     void createTokens() {
-        // Connect to a database.
-        configBuilder();
+        auto conn = postgres::Connection();
 
-        // Create tables.
         conn.create<tokens>();
-        // Populate the table with data.
+
         std::vector<tokens> data{ {"replace_me"} };
-
-
         conn.insert(data.begin(), data.end());
 
     };
 
     public:
         void createUsers() {
-            configBuilder();
+            auto conn = postgres::Connection();
 
             conn.create<users>();
         };
 
-    public:
-        void createTables() {
-                createTokens;
-                createUsers;
-
-            };
 
     public:
         void readToken() {
-            configBuilder();
+            auto conn = postgres::Connection();
             try
             {
                 // Retrieve some data from the table.
@@ -68,7 +71,7 @@ class DatabaseWrapper {
         };
     public:
         void connectionReset() {
-            configBuilder();
+            auto conn = postgres::Connection();
             if (!conn.isOk()) {
                 conn.reset();
             }
