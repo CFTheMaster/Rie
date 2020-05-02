@@ -12,18 +12,7 @@ class Rie : public SleepyDiscord::DiscordClient {
 	CommandHandler cmdHandler();
 };
 
-void configBuilder() {
-	auto& dotenv = dotenv::env;
-	Connection conn{ Config::Builder{}
-		.user(dotenv["USERNAME"])
-		.password(dotenv["PASSWORD"])
-		.dbname(dotenv["DATABASE_NAME"])
-		.build()
-	};
-}
-
 int main() {
-	configBuilder();
 	DatabaseWrapper db;
 	db.createTables;
 

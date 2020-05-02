@@ -14,10 +14,19 @@ using postgres::Statement;
 
 class DatabaseWrapper {
 
-    void createTokens() {
+    void configBuilder() {
+        auto& dotenv = dotenv::env;
+        Connection& conn{ Config::Builder{}
+            .user(dotenv["USERNAME"])
+            .password(dotenv["PASSWORD"])
+            .dbname(dotenv["DATABASE_NAME"])
+            .build()
+        };
+    }
 
+    void createTokens() {
         // Connect to a database.
-        Connection conn{};
+        configBuilder();
 
         // Create tables.
         conn.create<tokens>();
@@ -31,7 +40,7 @@ class DatabaseWrapper {
 
     public:
         void createUsers() {
-            Connection conn{};
+            configBuilder();
 
             conn.create<users>();
         };
@@ -45,7 +54,7 @@ class DatabaseWrapper {
 
     public:
         void readToken() {
-            Connection conn{};
+            configBuilder();
             try
             {
                 // Retrieve some data from the table.
@@ -55,12 +64,11 @@ class DatabaseWrapper {
             }
             catch (Error const& err)
             {
-                printf(err);
             }
         };
     public:
         void connectionReset() {
-            Connection& conn{};
+            configBuilder();
             if (!conn.isOk()) {
                 conn.reset();
             }
