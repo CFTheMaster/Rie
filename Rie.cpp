@@ -29,6 +29,7 @@ public:
 };
 
 int main() {
+	auto& dotenv = dotenv::env;
 	DatabaseWrapper db;
 	
 	db.construct();	    
@@ -39,7 +40,7 @@ int main() {
 
 	std::string str = strm.str();
 
-	Rie client(str, 2);
+	Rie client(dotenv["DISCORD_TOKEN"], 2);
 	client.run();
 	db.connectionReset();
 }
