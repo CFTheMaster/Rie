@@ -10,7 +10,7 @@ public:
 	}
 	void onMessage(SleepyDiscord::Message message) {
 		if (!message.author.bot && message.startsWith(defaultPrefix)) {
-			std::string str = message;
+			std::string str = message.content;
 			std::string str2("test");
 
 			std::size_t found = str.find(str2);
