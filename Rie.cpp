@@ -23,7 +23,7 @@ void configBuilder() {
 }
 
 int main() {
-	configBuilder;
+	configBuilder();
 	DatabaseWrapper db;
 	db.createTables;
 
