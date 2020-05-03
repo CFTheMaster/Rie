@@ -18,7 +18,7 @@ public:
 	};
 	void onMessage(SleepyDiscord::Message message) {
 		if (!message.author.bot && message.startsWith(defaultPrefix)){
-			if (message.content == (defaultPrefix + "test")) {
+			if (message.content == ("test")) {
 				sendMessage(message.channelID, "this is just a simple test, <@!" + message.author.ID + ">");
 			}
 			
