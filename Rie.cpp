@@ -17,7 +17,7 @@ public:
 		printf("Rie is fully functioning and ready for service!!!!!");
 	};
 	void onMessage(SleepyDiscord::Message message) {
-		cmd.handleMessage(message);
+		cmd.onMessage(message);
 	}
 };
 
