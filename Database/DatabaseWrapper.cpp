@@ -52,7 +52,7 @@ public:
 
 
     public:
-        char readToken() {                      
+        std::string readToken() {                      
             poolConfig();
             try
             {
@@ -60,7 +60,9 @@ public:
             }
             catch (Error const& err)
             {
-                return;
+                std::string str = "this is not a token!!!";
+                char* cstr = &str[0];
+                return cstr;
             }
         };
     public:

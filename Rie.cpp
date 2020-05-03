@@ -32,6 +32,8 @@ int main() {
 
 	std::string str = strm.str();
 
+	printf("%s\n", str.c_str());
+
 	Rie client(dotenv["DISCORD_TOKEN"], 2);
 	client.run();
 	db.connectionReset();
