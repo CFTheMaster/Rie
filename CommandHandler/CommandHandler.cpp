@@ -4,15 +4,14 @@ class CommandHandler : public SleepyDiscord::DiscordClient {
 public:
 	std::string defaultPrefix = "rie.";
 public:
-	using SleepyDiscord::DiscordClient::DiscordClient;
 	void handleMessage(SleepyDiscord::Message message) {
 		if (!message.author.bot && message.startsWith(defaultPrefix)) {
 			if (message.content == (defaultPrefix + "test")) {
-				sendMessage(message.channelID, "this is just a simple, <@!" + message.author.ID + ">");
+				SleepyDiscord::DiscordClient::sendMessage(message.channelID, "this is just a simple, <@!" + message.author.ID + ">");
 			}
 
 			if (message.content == (defaultPrefix + "me")) {
-				sendMessage(message.channelID, "<@!" + message.author.ID + ">");
+				SleepyDiscord::DiscordClient::sendMessage(message.channelID, "<@!" + message.author.ID + ">");
 			}
 
 		}
