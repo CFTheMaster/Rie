@@ -11,6 +11,10 @@ public:
 				sendMessage(message.channelID, "this is just a simple, <@!" + message.author.ID + ">");
 			}
 
+			if (message.content == (defaultPrefix + "me")) {
+				sendMessage(message.channelID, "<@!" + message.author.ID + ">");
+			}
+
 		}
 	}
 

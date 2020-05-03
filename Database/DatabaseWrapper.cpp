@@ -60,7 +60,7 @@ public:
             }
             catch (Error const& err)
             {
-                return NULL;
+                return;
             }
         };
     public:
