@@ -9,6 +9,8 @@ using postgres::Connection;
 class Rie : public SleepyDiscord::DiscordClient {
 private:
 	CommandHandler cmd;
+	std::string defaultPrefix = "rie.";
+
 		//CommandHandler cmdHandler; just testing
 public:
 	using SleepyDiscord::DiscordClient::DiscordClient;
@@ -17,13 +19,22 @@ public:
 		printf("Rie is fully functioning and ready for service!!!!!");
 	};
 	void onMessage(SleepyDiscord::Message message) {
-		cmd.onMessage(message);
+		if (!message.author.bot && message.startsWith(defaultPrefix)) {
+			if (message.content == (defaultPrefix + "test")) {
+				SleepyDiscord::DiscordClient::sendMessage(message.channelID, "this is just a simple, <@!" + message.author.ID + ">");
+			}
+
+			if (message.content == (defaultPrefix + "me")) {
+				SleepyDiscord::DiscordClient::sendMessage(message.channelID, "<@!" + message.author.ID + ">");
+			}
+
+		}
 	}
 };
 
 int main() {
 	auto& dotenv = dotenv::env;
-	/*DatabaseWrapper db;
+	DatabaseWrapper db;
 	db.construct();	    
 
 	std::stringstream strm;
@@ -32,9 +43,9 @@ int main() {
 
 	std::string str = strm.str();
 
-	printf("%s\n", str.c_str());*/
+	printf("%s\n", str.c_str());
 
 	Rie client(dotenv["DISCORD_TOKEN"], 2);
 	client.run();
-	//db.connectionReset();
+	db.connectionReset();
 }

@@ -6,16 +6,7 @@ public:
 public:
 	using SleepyDiscord::DiscordClient::DiscordClient;
 	void onMessage(SleepyDiscord::Message message) override{
-		if (!message.author.bot && message.startsWith(defaultPrefix)) {
-			if (message.content == (defaultPrefix + "test")) {
-				SleepyDiscord::DiscordClient::sendMessage(message.channelID, "this is just a simple, <@!" + message.author.ID + ">");
-			}
-
-			if (message.content == (defaultPrefix + "me")) {
-				SleepyDiscord::DiscordClient::sendMessage(message.channelID, "<@!" + message.author.ID + ">");
-			}
-
-		}
+		
 	}
 
 public:
