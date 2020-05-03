@@ -7,9 +7,9 @@ using postgres::Config;
 using postgres::Connection;
 
 class Rie : public SleepyDiscord::DiscordClient {
-	std::string defaultPrefix = "rie.";
-
-	//CommandHandler cmdHandler; just testing
+private:
+	CommandHandler cmd;
+		//CommandHandler cmdHandler; just testing
 public:
 	using SleepyDiscord::DiscordClient::DiscordClient;
 	void onReady() {
@@ -17,19 +17,13 @@ public:
 		printf("Rie is fully functioning and ready for service!!!!!");
 	};
 	void onMessage(SleepyDiscord::Message message) {
-		if (!message.author.bot && message.startsWith(defaultPrefix)){
-			if (message.content == ("test")) {
-				sendMessage(message.channelID, "this is just a simple test, <@!" + message.author.ID + ">");
-			}
-			
-		};
-	};
+		cmd.handleMessage(message);
+	}
 };
 
 int main() {
 	auto& dotenv = dotenv::env;
 	DatabaseWrapper db;
-	
 	db.construct();	    
 
 	std::stringstream strm;
