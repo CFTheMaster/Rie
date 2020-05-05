@@ -8,10 +8,10 @@ using postgres::Connection;
 
 class Rie : public SleepyDiscord::DiscordClient {
 private:
-	CommandHandler cmd;
+	CommandHandler cmdHandle;
 	std::string defaultPrefix = "rie.";
 
-		//CommandHandler cmdHandler; just testing
+
 public:
 	using SleepyDiscord::DiscordClient::DiscordClient;
 	void onReady() {
@@ -19,16 +19,7 @@ public:
 		printf("Rie is fully functioning and ready for service!!!!!");
 	};
 	void onMessage(SleepyDiscord::Message message) {
-		if (!message.author.bot && message.startsWith(defaultPrefix)) {
-			if (message.content == (defaultPrefix + "test")) {
-				SleepyDiscord::DiscordClient::sendMessage(message.channelID, "this is just a simple, <@!" + message.author.ID + ">");
-			}
-
-			if (message.content == (defaultPrefix + "me")) {
-				SleepyDiscord::DiscordClient::sendMessage(message.channelID, "<@!" + message.author.ID + ">");
-			}
-
-		}
+		cmdHandle.handleMessage(message);
 	}
 };
 
