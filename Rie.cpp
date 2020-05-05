@@ -19,21 +19,7 @@ public:
 		printf("Rie is fully functioning and ready for service!!!!!");
 	};
 	void onMessage(SleepyDiscord::Message message) override {
-		if (!message.author.bot && message.startsWith(defaultPrefix)) {
-			printf("a command has ran");
-			if (message.content == (defaultPrefix + "test")) {
-				SleepyDiscord::DiscordClient::sendMessage(message.channelID, "this is just a simple test <@!"
-					+ message.author.ID
-					+ ">");
-			}
-
-			if (message.content == (defaultPrefix + "me")) {
-				SleepyDiscord::DiscordClient::sendMessage(message.channelID, "<@!"
-					+ message.author.ID + ">");
-			}
-
-		}
-		//cmdHandle.handleMessage(message);
+		cmdHandle.handleMessage(message);
 	}
 };
 
