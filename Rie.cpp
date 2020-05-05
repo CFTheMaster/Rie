@@ -17,7 +17,8 @@ public:
 		client.updateStatus("ready for service!", 0);
 		printf("Rie is fully functioning and ready for service!!!!!");
 	};
-	void onMessage(SleepyDiscord::Message message) override {
+	void onMessage(){
+		SleepyDiscord::Message message;
 		CommandHandler cmdHandle;
 		cmdHandle.handleMessage(message);
 	}
