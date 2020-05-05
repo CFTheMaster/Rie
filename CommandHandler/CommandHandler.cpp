@@ -24,7 +24,7 @@ public:
 			}
 		}
 		catch (const std::exception& e) {
-			printf(e.what);
+			std::cout << e.what() << std::endl;
 		}
 		
 	}
