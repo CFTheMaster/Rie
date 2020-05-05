@@ -7,7 +7,7 @@ public:
 	
 	void handleMessage(SleepyDiscord::Message message) {
 		if (!message.author.bot && message.startsWith(defaultPrefix)) {
-			printf_s("a command has ran");
+			printf("a command has ran");
 			if (message.content == (defaultPrefix + "test")) {
 				SleepyDiscord::DiscordClient::sendMessage(message.channelID, "this is just a simple test <@!" 
 					+ message.author.ID 
