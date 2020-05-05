@@ -19,7 +19,7 @@ public:
 		printf("Rie is fully functioning and ready for service!!!!!");
 	};
 	void onMessage(SleepyDiscord::Message message) override {
-		cmdHandle.handleMessage(message);
+		CommandHandler::handleMessage;
 	}
 };
 
