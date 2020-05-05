@@ -10,15 +10,30 @@ class Rie : public SleepyDiscord::DiscordClient {
 private:
 	CommandHandler cmdHandle;
 	std::string defaultPrefix = "rie.";
+	SleepyDiscord::DiscordClient client;
 	
 public:
 	using SleepyDiscord::DiscordClient::DiscordClient;
 	void onReady() {
-		updateStatus("ready for service!", 0);
+		client.updateStatus("ready for service!", 0);
 		printf("Rie is fully functioning and ready for service!!!!!");
 	};
 	void onMessage(SleepyDiscord::Message message) override {
-		cmdHandle.handleMessage(message);
+		if (!message.author.bot && message.startsWith(defaultPrefix)) {
+			printf("a command has ran");
+			if (message.content == (defaultPrefix + "test")) {
+				client.sendMessage(message.channelID, "this is just a simple test <@!"
+					+ message.author.ID
+					+ ">");
+			}
+
+			if (message.content == (defaultPrefix + "me")) {
+				client.sendMessage(message.channelID, "<@!"
+					+ message.author.ID + ">");
+			}
+
+		}
+		//cmdHandle.handleMessage(message);
 	}
 };
 
