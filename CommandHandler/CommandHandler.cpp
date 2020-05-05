@@ -1,21 +1,22 @@
 #include "sleepy_discord/websocketpp_websocket.h"
 
-class CommandHandler : Rie{
-public:
+class CommandHandler{
+private:
 	std::string defaultPrefix = "rie.";
+	SleepyDiscord::DiscordClient client;
 public:
 	
 	void handleMessage(SleepyDiscord::Message message) {
 		if (!message.author.bot && message.startsWith(defaultPrefix)) {
 			printf("a command has ran");
 			if (message.content == (defaultPrefix + "test")) {
-				SleepyDiscord::DiscordClient::sendMessage(message.channelID, "this is just a simple test <@!" 
+				client.sendMessage(message.channelID, "this is just a simple test <@!" 
 					+ message.author.ID 
 					+ ">");
 			}
 
 			if (message.content == (defaultPrefix + "me")) {
-				SleepyDiscord::DiscordClient::sendMessage(message.channelID, "<@!"
+				client.sendMessage(message.channelID, "<@!"
 					+ message.author.ID + ">");
 			}
 
