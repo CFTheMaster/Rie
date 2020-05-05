@@ -17,10 +17,15 @@ public:
 		client.updateStatus("ready for service!", 0);
 		printf("Rie is fully functioning and ready for service!!!!!");
 	};
-	void onMessage(){
-		SleepyDiscord::Message message;
+	void onMessage(SleepyDiscord::Message message) override {
 		CommandHandler cmdHandle;
-		cmdHandle.handleMessage(message);
+		try {
+			cmdHandle.handleMessage(message);
+		}
+		catch (const std::exception& e) {
+			std::cout << e.what() << std::endl;
+		}
+		
 	}
 };
 
