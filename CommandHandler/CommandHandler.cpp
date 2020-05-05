@@ -10,14 +10,12 @@ public:
 			if (!message.author.bot && message.startsWith(defaultPrefix)) {
 				printf("a command has ran");
 				if (message.content == (defaultPrefix + "test")) {
-					printf("%s\n", message.content);
 					client.sendMessage(message.channelID, "this is just a simple test <@!"
 						+ message.author.ID
 						+ ">");
 				}
 
 				if (message.content == (defaultPrefix + "me")) {
-					printf("%s\n", message.content);
 					client.sendMessage(message.channelID, "<@!"
 						+ message.author.ID + ">");
 				}

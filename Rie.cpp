@@ -10,7 +10,7 @@ class Rie : public SleepyDiscord::DiscordClient {
 private:
 	CommandHandler cmdHandle;
 	std::string defaultPrefix = "rie.";
-
+	SleepyDiscord::Message message;
 
 public:
 	using SleepyDiscord::DiscordClient::DiscordClient;
@@ -18,8 +18,7 @@ public:
 		updateStatus("ready for service!", 0);
 		printf("Rie is fully functioning and ready for service!!!!!");
 	};
-	void onMessage(SleepyDiscord::Message message) {
-		printf("%s\n", message.content);
+	void onMessage() {
 		cmdHandle.handleMessage(message);
 	}
 };
