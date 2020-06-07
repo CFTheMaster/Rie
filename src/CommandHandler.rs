@@ -27,6 +27,9 @@ impl EventHandler for Handler {
         let mut ping_command = String::from(prefix);
         ping_command.push_str("ping");
 
+        let mut simple_reply = String::from(prefix);
+        simple_reply.push_str("me");
+
 
         if message.content == ping_command && !message.author.bot {
             let channel = match message.channel_id.to_channel(&ctx) {
@@ -47,6 +50,12 @@ impl EventHandler for Handler {
                 .build();
 
             if let Err(why) = message.channel_id.say(&ctx.http, &response) {
+                println!("Error sending message: {:?}", why);
+            }
+        }
+
+        if message.content == simple_reply && !message.author.bot{
+            if let Err(why) = message.reply(ctx.http, " welcome to hell") {
                 println!("Error sending message: {:?}", why);
             }
         }
