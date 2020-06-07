@@ -1,4 +1,3 @@
-
 mod CommandHandler;
 
 use serenity::{
