@@ -36,14 +36,6 @@ impl EventHandler for Handler {
         if !message.author.bot {
 
             if message.content == help_command {
-                let channel = match message.channel_id.to_channel(&ctx) {
-                    Ok(channel) => channel,
-                    Err(why) => {
-                        println!("Error getting channel: {:?}", why);
-                        return;
-                    },
-                };
-
                 let response = MessageBuilder::new()
                     .push(
                         "```\nCommand List:\nhelp - Shows this message;\nme;\nping - Replies to the user, no ping measure yet.```"
