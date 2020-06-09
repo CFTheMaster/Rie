@@ -1,10 +1,20 @@
 mod CommandHandler;
+mod commands;
 
 use serenity::{
     prelude::*,
-    framework::StandardFramework
+    framework::{
+        StandardFramework,
+        standard::macros::group,
+    }
 };
 use typemap::Key;
+
+use commands::{
+    me::*,
+    help::*,
+    ping::*,
+};
 
 use std::{
     sync::{ Arc, Mutex },
@@ -32,18 +42,38 @@ fn init_settings() -> Settings {
     toml::from_str(&contents).expect("Could not deserialize configuration")
 }
 
+
+#[group]
+#[commands(me, help, ping)]
+struct General;
+
 fn main() {
+    let prefix: &'static str = "rie.";
+
     let settings = init_settings();
 
     let mut client = Client::new(&settings.discord_token, CommandHandler::Handler).expect("Err creating client");
 
+    let (owners, bot_id) = match client.cache_and_http.http.get_current_application_info() {
+        Ok(info) => {
+            let mut owners = HashSet::new();
+            owners.insert(info.owner.id);
+
+            (owners, info.id)
+        },
+        Err(why) => panic!("Could not access application info: {:?}", why),
+    };
+
 
     //TO-DO
-    /*client.with_framework(
-        StandardFramework::new()
-            .configure(|c| c.prefix("rie."))
-            .group(&GENERAL_GROUP),
-    );*/
+    client.with_framework(StandardFramework::new()
+        .configure(|c| c
+            .with_whitespace(true)
+            .on_mention(Some(bot_id))
+            .owners(owners)
+            .prefix(prefix))
+        .group(&GENERAL_GROUP));
+    
 
     if let Err(why) = client.start() {
         println!("Client error: {:?}", why);

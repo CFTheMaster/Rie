@@ -4,6 +4,7 @@
 name = "Rie"
 version = "0.1.0"
 dependencies = [
+ "chrono",
  "diesel",
  "serde",
  "serenity",

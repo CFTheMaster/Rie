@@ -33,8 +33,9 @@ impl EventHandler for Handler {
         let mut help_command = String::from(prefix);
         help_command.push_str("help");
 
-        if !message.author.bot {
-            if message.content == help_command {
+        if !message.author.bot{
+
+            /*if message.content == help_command {
                 let response = MessageBuilder::new()
                     .push(
                         "```\nCommand List:\nhelp - Shows this message;\nme;\nping - Replies to the user, no ping measure yet.```"
@@ -72,7 +73,7 @@ impl EventHandler for Handler {
                 if let Err(why) = message.reply(ctx.http, " welcome to hell") {
                     println!("Error sending message: {:?}", why);
                 }
-            }
+            }*/
         
         }
         
