@@ -1,7 +1,9 @@
 mod CommandHandler;
+mod command;
 
 use serenity::{
-    prelude::*
+    prelude::*,
+    framework::StandardFramework
 };
 use typemap::Key;
 
@@ -14,6 +16,7 @@ use std::{
 
 use serde::{Serialize, Deserialize};
 
+use crate::command::{GENERAL_GROUP}
 
 #[derive(Default, Deserialize, Clone)]
 pub struct Settings { 
@@ -32,11 +35,16 @@ fn init_settings() -> Settings {
     toml::from_str(&contents).expect("Could not deserialize configuration")
 }
 
-
 fn main() {
     let settings = init_settings();
 
     let mut client = Client::new(&settings.discord_token, CommandHandler::Handler).expect("Err creating client");
+
+    client.with_framework(
+        StandardFramework::new()
+            .configure(|c| c.prefix("rie."))
+            .group(&GENERAL_GROUP),
+    );
 
     if let Err(why) = client.start() {
         println!("Client error: {:?}", why);
