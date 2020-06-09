@@ -1,4 +1,5 @@
 use std::string::String;
+use rand::{Rng};
 
 use serenity::{
     model::{channel::Message, gateway::Ready},
@@ -18,18 +19,35 @@ use serenity::{
 pub struct Handler;
 impl EventHandler for Handler {
     fn ready(&self, ctx: Context, data: Ready){
-        println!("Connected using : {}#{}", data.user.name, data.user.discriminator);
-
         if let Some(shard) = data.shard {
+            use serenity::model::gateway::Activity;
+            use serenity::model::user::OnlineStatus;
+
+            let mut rng = rand::thread_rng().gen_range(0, 10);
+
+            let status = OnlineStatus::DoNotDisturb;
+
+            match rng{
+                0 => ctx.set_presence(Some(Activity::playing("I'm an airplane!")), status),
+                1 => ctx.set_presence(Some(Activity::playing("Stop the memes!")), status),
+                2 => ctx.set_presence(Some(Activity::playing("Why am I doing this?")), status),
+                3..=10 => ctx.set_presence(Some(Activity::playing("Help me!")), status),
+                _ => ctx.set_presence(Some(Activity::playing("If you see this presence the bot has errored")), status),
+            };
+            
             // Note that array index 0 is 0-indexed, while index 1 is 1-indexed.
             //
             // This may seem unintuitive, but it models Discord's behaviour.
             println!(
-                "{} is connected on shard {}/{}!",
+                "{}#{} is connected on shard {}/{} and {} guild(s)",
                 data.user.name,
+                data.user.discriminator,
                 shard[0],
                 shard[1],
+                data.guilds.capacity()
             );
+
+            
         }
     }
 
