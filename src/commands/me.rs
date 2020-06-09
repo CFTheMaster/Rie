@@ -7,7 +7,8 @@ use serenity::{
 
 #[command]
 fn me(ctx: &mut Context, message: &Message) -> CommandResult{
-    let _ = message.reply(&ctx.http, ": Welcome to hell");
+    let _ = message.reply(&ctx.http, " Welcome to hell");
+    println!("Processed command 'me'");
 
-    Ok(())
+    Ok(()) 
 }

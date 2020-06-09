@@ -1,7 +1,8 @@
-mod CommandHandler;
+mod command_handler;
 mod commands;
 
 use serenity::{
+    client::bridge::gateway::ShardManager,
     prelude::*,
     framework::{
         StandardFramework,
@@ -14,16 +15,18 @@ use commands::{
     me::*,
     help::*,
     ping::*,
+    owner::*,
 };
 
 use std::{
+    thread,
+    time::Duration,
     sync::{ Arc, Mutex },
-    io::{ Error, ErrorKind, Read },
-    collections::{ HashSet, HashMap },
-    iter::FromIterator, str::FromStr, process::Command,
+    io::{ Read },
+    collections::{ HashSet },
 };
 
-use serde::{Serialize, Deserialize};
+use serde::{Deserialize};
 
 #[derive(Default, Deserialize, Clone)]
 pub struct Settings { 
@@ -42,9 +45,14 @@ fn init_settings() -> Settings {
     toml::from_str(&contents).expect("Could not deserialize configuration")
 }
 
+struct ShardManagerContainer;
+impl TypeMapKey for ShardManagerContainer {
+    type Value = Arc<Mutex<ShardManager>>;
+}
+
 
 #[group]
-#[commands(me, help, ping)]
+#[commands(me, help, ping, quit)]
 struct General;
 
 fn main() {
@@ -52,8 +60,27 @@ fn main() {
 
     let settings = init_settings();
 
-    let mut client = Client::new(&settings.discord_token, CommandHandler::Handler).expect("Err creating client");
+    let mut client = Client::new(&settings.discord_token, command_handler::Handler).expect("Err creating client");
+    
+    let manager = client.shard_manager.clone();
 
+    thread::spawn(move || {
+        loop {
+            thread::sleep(Duration::from_secs(30));
+
+            let lock = manager.lock();
+            let shard_runners = lock.runners.lock();
+
+            for (id, runner) in shard_runners.iter() {
+                println!(
+                    "Shard ID {} is {} with a latency of {:?}",
+                    id,
+                    runner.stage,
+                    runner.latency,
+                );
+            }
+        }
+    });
     let (owners, bot_id) = match client.cache_and_http.http.get_current_application_info() {
         Ok(info) => {
             let mut owners = HashSet::new();
@@ -63,7 +90,6 @@ fn main() {
         },
         Err(why) => panic!("Could not access application info: {:?}", why),
     };
-
 
     //TO-DO
     client.with_framework(StandardFramework::new()

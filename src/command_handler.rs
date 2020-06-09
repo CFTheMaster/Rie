@@ -19,6 +19,18 @@ pub struct Handler;
 impl EventHandler for Handler {
     fn ready(&self, ctx: Context, data: Ready){
         println!("Connected using : {}#{}", data.user.name, data.user.discriminator);
+
+        if let Some(shard) = data.shard {
+            // Note that array index 0 is 0-indexed, while index 1 is 1-indexed.
+            //
+            // This may seem unintuitive, but it models Discord's behaviour.
+            println!(
+                "{} is connected on shard {}/{}!",
+                data.user.name,
+                shard[0],
+                shard[1],
+            );
+        }
     }
 
     fn message(&self, ctx: Context, message: Message){

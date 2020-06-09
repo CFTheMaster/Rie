@@ -10,6 +10,7 @@ use serenity::{
 #[description = "Checks Discord's API / message latency."]
 fn ping(ctx: &mut Context, message: &Message) -> CommandResult {
     let _ = message.channel_id.say(&ctx.http, "Pong!");
+    println!("Processed command 'ping'");
 
 
     Ok(())
