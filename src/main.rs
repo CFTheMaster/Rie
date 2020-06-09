@@ -1,5 +1,4 @@
 mod CommandHandler;
-mod command;
 
 use serenity::{
     prelude::*,
@@ -15,8 +14,6 @@ use std::{
 };
 
 use serde::{Serialize, Deserialize};
-
-use crate::command::{GENERAL_GROUP}
 
 #[derive(Default, Deserialize, Clone)]
 pub struct Settings { 
@@ -40,11 +37,13 @@ fn main() {
 
     let mut client = Client::new(&settings.discord_token, CommandHandler::Handler).expect("Err creating client");
 
-    client.with_framework(
+
+    //TO-DO
+    /*client.with_framework(
         StandardFramework::new()
             .configure(|c| c.prefix("rie."))
             .group(&GENERAL_GROUP),
-    );
+    );*/
 
     if let Err(why) = client.start() {
         println!("Client error: {:?}", why);
