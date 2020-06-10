@@ -6,6 +6,9 @@ use serenity::{
 use std::string::String;
 
 #[command]
+#[description = "just get a basic response"]
+#[usage = "me"]
+#[example = "me"]
 fn me(ctx: &mut Context, message: &Message) -> CommandResult{
     let _ = message.reply(&ctx.http, " Welcome to hell");
 

@@ -8,6 +8,9 @@ use serenity::framework::standard::{
 use std::string::String;
 
 #[command]
+#[description = "shutdown the current shard."]
+#[usage = "quit"]
+#[example = "quit"]
 #[owners_only]
 fn quit(ctx: &mut Context, message: &Message) -> CommandResult {
     let data = ctx.data.read();

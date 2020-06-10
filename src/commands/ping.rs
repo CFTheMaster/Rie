@@ -9,6 +9,8 @@ use std::mem;
 
 #[command]
 #[description = "Checks Discord's API / message latency."]
+#[usage = "ping"]
+#[example = "ping"]
 fn ping(ctx: &mut Context, message: &Message) -> CommandResult {
     let _ = message.channel_id.say(&ctx.http, "Pong!");
 

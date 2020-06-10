@@ -52,7 +52,7 @@ impl TypeMapKey for ShardManagerContainer {
 
 
 #[group]
-#[commands(me, help, ping, quit)]
+#[commands(me, ping, quit)]
 struct General;
 
 fn main() {
@@ -98,7 +98,8 @@ fn main() {
             .on_mention(Some(bot_id))
             .owners(owners)
             .prefix(prefix))
-        .group(&GENERAL_GROUP));
+        .group(&GENERAL_GROUP)
+        .help(&HELP));
     
 
     if let Err(why) = client.start() {
