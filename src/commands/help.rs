@@ -18,7 +18,7 @@ fn help(ctx: &mut Context, message: &Message, args: Args, _help_options: &'stati
     };
 
 
-    message.channel_id.send_message(&ctx, |m| {
+    if let Err(why) = message.channel_id.send_message(&ctx, |m| {
         m.embed(|mut e| {
             e.title("Help Command");
             e.description(&s);
@@ -27,7 +27,10 @@ fn help(ctx: &mut Context, message: &Message, args: Args, _help_options: &'stati
         });
 
         m
-    });
+    }) {
+        println!("Error: {:?}", why);
+        message.channel_id.say(&ctx.http, "Missing permissions");
+    }
 
     let g = message.guild(&ctx.cache).unwrap();
     
