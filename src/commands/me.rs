@@ -8,7 +8,8 @@ use serenity::{
 #[command]
 fn me(ctx: &mut Context, message: &Message) -> CommandResult{
     let _ = message.reply(&ctx.http, " Welcome to hell");
-    println!("Processed command 'me'");
+    let g = message.guild(&ctx.cache).unwrap();
+    println!("Processed command 'me' by user '{}#{}' ({}) in guild {} ({}) ", message.author.name, message.author.discriminator, message.author.id, &g.read().name, &g.read().id);
 
     Ok(()) 
 }

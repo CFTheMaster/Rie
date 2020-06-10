@@ -5,13 +5,18 @@ use serenity::{
     framework::standard::{macros::command, CommandResult},
     model::prelude::Message
 };
+use std::mem;
 
 #[command]
 #[description = "Checks Discord's API / message latency."]
 fn ping(ctx: &mut Context, message: &Message) -> CommandResult {
     let _ = message.channel_id.say(&ctx.http, "Pong!");
-    println!("Processed command 'ping'");
 
+    let g = message.guild(&ctx.cache).unwrap();
+    let width = 4;
+    let s = format!("{:0width$}", message.author.discriminator, width = width);
+
+    println!("Processed command 'ping' by user '{}#{}' ({}) in guild {} ({}) ", message.author.name, s, message.author.id, &g.read().name, &g.read().id);
 
     Ok(())
 
