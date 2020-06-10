@@ -20,7 +20,7 @@ fn quit(ctx: &mut Context, message: &Message) -> CommandResult {
         let width = 4;
         let discrim = format!("{:0width$}", message.author.discriminator, width = width);
 
-        println!("Processed command 'quit' by user '{}#{}' ({}) in guild {} ({}) ", message.author.name, discrim, message.author.id, &g.read().name, &g.read().id);
+        println!("Processed command 'owner' by user '{}#{}' ({}) in guild '{}' ({}) ", message.author.name, discrim, message.author.id, &g.read().name, &g.read().id);
 
         ctx.shard.shutdown_clean();
         

@@ -17,7 +17,7 @@ fn help(ctx: &mut Context, message: &Message) -> CommandResult{
     let width = 4;
     let discrim = format!("{:0width$}", message.author.discriminator, width = width);
 
-    println!("Processed command 'help' by user '{}#{}' ({}) in guild {} ({}) ", message.author.name, discrim, message.author.id, &g.read().name, &g.read().id);
+    println!("Processed command 'help' by user '{}#{}' ({}) in guild '{}' ({}) ", message.author.name, discrim, message.author.id, &g.read().name, &g.read().id);
 
     Ok(())
 }
