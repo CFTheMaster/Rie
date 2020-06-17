@@ -15,6 +15,17 @@ use serenity::{
     }
 };
 
+use crate::commands::general::{
+    me::*,
+    ping::*,
+    owner::*,
+};
+
+
+#[group]
+#[commands(me, ping, quit)]
+pub struct General;
+
 
 pub struct Handler;
 impl EventHandler for Handler {

@@ -1,5 +1,9 @@
 mod command_handler;
-mod commands;
+pub mod commands;
+
+use commands::{
+    help::*,
+};
 
 use serenity::{
     client::bridge::gateway::ShardManager,
@@ -11,12 +15,7 @@ use serenity::{
 };
 use typemap::Key;
 
-use commands::{
-    me::*,
-    help::*,
-    ping::*,
-    owner::*,
-};
+
 
 use std::{
     thread,
@@ -50,10 +49,6 @@ impl TypeMapKey for ShardManagerContainer {
     type Value = Arc<Mutex<ShardManager>>;
 }
 
-
-#[group]
-#[commands(me, ping, quit)]
-struct General;
 
 fn main() {
     let prefix: &'static str = "rie.";
@@ -98,7 +93,7 @@ fn main() {
             .on_mention(Some(bot_id))
             .owners(owners)
             .prefix(prefix))
-        .group(&GENERAL_GROUP)
+        .group(&command_handler::GENERAL_GROUP)
         .help(&HELP));
     
 

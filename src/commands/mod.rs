@@ -1,5 +1,4 @@
-pub mod me;
-pub mod ping;
-pub mod owner;
+pub mod general;
+pub mod moderation;
 
 pub mod help;
