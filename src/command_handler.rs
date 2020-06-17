@@ -21,10 +21,20 @@ use crate::commands::general::{
     owner::*,
 };
 
+use crate::commands::moderation::{
+    ban::*,
+    unban::*,
+    mute::*,
+    unmute::*,
+};
 
 #[group]
 #[commands(me, ping, quit)]
 pub struct General;
+
+#[group]
+#[commands(ban, unban, mute, unmute)]
+pub struct Moderation;
 
 
 pub struct Handler;

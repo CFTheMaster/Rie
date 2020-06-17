@@ -11,7 +11,8 @@ use serenity::{
     framework::{
         StandardFramework,
         standard::macros::group,
-    }
+    },
+    model::id::UserId,
 };
 use typemap::Key;
 
@@ -20,7 +21,7 @@ use typemap::Key;
 use std::{
     thread,
     time::Duration,
-    sync::{ Arc, Mutex },
+    sync::{ Arc },
     io::{ Read },
     collections::{ HashSet },
 };
@@ -45,6 +46,7 @@ fn init_settings() -> Settings {
 }
 
 struct ShardManagerContainer;
+
 impl TypeMapKey for ShardManagerContainer {
     type Value = Arc<Mutex<ShardManager>>;
 }
@@ -56,6 +58,13 @@ fn main() {
     let settings = init_settings();
 
     let mut client = Client::new(&settings.discord_token, command_handler::Handler).expect("Err creating client");
+
+    
+    {
+        let mut data = client.data.write();
+        data.insert::<ShardManagerContainer>(Arc::clone(&client.shard_manager));
+    }
+
     
     let manager = client.shard_manager.clone();
 
@@ -81,7 +90,9 @@ fn main() {
             let mut owners = HashSet::new();
             owners.insert(info.owner.id);
 
+            println!("Owners: {}, Bot ID: {}", info.owner.id, info.id);
             (owners, info.id)
+            
         },
         Err(why) => panic!("Could not access application info: {:?}", why),
     };
@@ -94,6 +105,7 @@ fn main() {
             .owners(owners)
             .prefix(prefix))
         .group(&command_handler::GENERAL_GROUP)
+        .group(&command_handler::MODERATION_GROUP)
         .help(&HELP));
     
 
