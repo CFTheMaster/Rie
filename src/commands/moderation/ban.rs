@@ -15,6 +15,10 @@ use std::fmt::write;
 #[example = "ban @hammertime -r very very annoying"]
 #[required_permissions("BAN_MEMBERS")]
 fn ban(ctx: &mut Context, message: &Message, mut args: Args) -> CommandResult {
+    let g = message.guild(&ctx.cache).unwrap();
+    let width = 4;
+    let discrim = format!("{:0width$}", message.author.discriminator, width = width);
+
     let raw_users = match args.single::<String>() {
         Ok(r) => r,
         Err(_) => return Err(CommandError::from("No user given.")),
@@ -91,18 +95,22 @@ fn ban(ctx: &mut Context, message: &Message, mut args: Args) -> CommandResult {
         // check the ban result
         match ban_result {
             Err(Error::Model(InvalidPermissions(permissions))) => {
+                println!("Processed command 'ban' by user '{}#{}' ({}) in guild '{}' ({}) ", message.author.name, discrim, message.author.id, &g.read().name, &g.read().id);
                 let e = format!("I don't have permission to ban this user, requires: `{:?}`.", permissions);
                 let _ = message.channel_id.say(&ctx, &format!(":question: {} - Error: {}\n", &user_tag_id, &e));
             },
             Err(Error::Model(DeleteMessageDaysAmount(num))) => {
+                println!("Processed command 'ban' by user '{}#{}' ({}) in guild '{}' ({}) ", message.author.name, discrim, message.author.id, &g.read().name, &g.read().id);
                 let e = format!("The number of days worth of messages to delete is over the maximum: ({}).", num);
                 let _ = message.channel_id.say(&ctx, &format!(":x: {} - Error: {}\n", &user_tag_id, &e));
             }
             Err(_) => {
+                println!("Processed command 'ban' by user '{}#{}' ({}) in guild '{}' ({}) ", message.author.name, discrim, message.author.id, &g.read().name, &g.read().id);
                 let e = "There was an unknown error trying to ban this user.";
                 let _ = message.channel_id.say(&ctx, &format!(":question: {} - Error: {}\n", &user_tag_id, &e));
             },
             Ok(_) => {
+                println!("Processed command 'ban' by user '{}#{}' ({}) in guild '{}' ({}) ", message.author.name, discrim, message.author.id, &g.read().name, &g.read().id);
                 let _ = message.channel_id.say(&ctx, &format!(":hammer: {} banned.\n", &user_tag_id));
                 // add the ban to the vec to prevent dupe bans
                 bans.push(u);
