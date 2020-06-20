@@ -1,3 +1,5 @@
+#![allow(unused_variables)]
+
 use serenity::{
     client::{Context},
     framework::standard::{macros::command, CommandResult, Args},
@@ -8,7 +10,7 @@ use serenity::{
 #[description = "Mute any user"]
 #[usage = "mute @user reason"]
 #[example = "mute @baka was spamming"]
-fn mute(ctx: &mut Context, message: &Message, mut args: Args) -> CommandResult {
+fn mute(ctx: &mut Context, message: &Message, args: Args) -> CommandResult {
 
 
 

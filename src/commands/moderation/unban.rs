@@ -1,3 +1,5 @@
+#![allow(unused_variables)]
+
 use serenity::{
     client::{Context},
     framework::standard::{macros::command, CommandResult, Args},
@@ -8,7 +10,7 @@ use serenity::{
 #[description = "Unban any user"]
 #[usage = "unban userid reason"]
 #[example = "unban 123456 appealed"]
-fn unban(ctx: &mut Context, message: &Message, mut args: Args) -> CommandResult {
+fn unban(ctx: &mut Context, message: &Message, args: Args) -> CommandResult {
 
 
 
