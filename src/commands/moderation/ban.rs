@@ -6,7 +6,6 @@ use serenity::{
 };
 use regex::Regex;
 use crate::utils::user::get_id;
-use std::fmt::write;
 
 #[command]
 #[only_in("guilds")]
@@ -56,10 +55,7 @@ fn ban(ctx: &mut Context, message: &Message, mut args: Args) -> CommandResult {
     }
 
     let count = users.len();
-    let sent_message = message.channel_id.say(&ctx, &format!("Attempting to ban {} users...", count));
-
-    // log the ban in the database
-    let mut s = String::new();
+    let _ = message.channel_id.say(&ctx, &format!("Attempting to ban {} users...", count));
 
     let mut bans = match guild.bans(&ctx) {
         Ok(val) => val.iter().map(|x| x.user.id.0).collect(),

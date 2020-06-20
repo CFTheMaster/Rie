@@ -12,9 +12,7 @@ use serenity::{
     prelude::*,
     framework::{
         StandardFramework,
-        standard::macros::group,
     },
-    model::id::UserId,
 };
 use typemap::Key;
 

@@ -1,7 +1,7 @@
 use serenity::{
     client::Context,
-    framework::standard::{macros::help, CommandResult, Args, CommandGroup, Command, HelpOptions, help_commands},
-    model::{channel::Embed, prelude::{Message, UserId}},
+    framework::standard::{macros::help, CommandResult, Args, CommandGroup, Command, HelpOptions},
+    model::{prelude::{Message, UserId}},
 };
 use std::string::String;
 use std::collections::HashSet;
@@ -19,7 +19,7 @@ fn help(ctx: &mut Context, message: &Message, args: Args, _help_options: &'stati
 
 
     if let Err(why) = message.channel_id.send_message(&ctx, |m| {
-        m.embed(|mut e| {
+        m.embed(|e| {
             e.title("Help Command");
             e.description(&s);
 
@@ -29,7 +29,7 @@ fn help(ctx: &mut Context, message: &Message, args: Args, _help_options: &'stati
         m
     }) {
         println!("Error: {:?}", why);
-        message.channel_id.say(&ctx.http, "Missing permissions");
+        let _ = message.channel_id.say(&ctx.http, "Missing permissions");
     }
 
     let g = message.guild(&ctx.cache).unwrap();
@@ -42,23 +42,6 @@ fn help(ctx: &mut Context, message: &Message, args: Args, _help_options: &'stati
     Ok(())
     
 }
-
-/*fn help(
-    ctx: &mut Context,
-    message: &Message,
-    arguments: Args,
-    options: &'static HelpOptions,
-    command_groups: &[&'static CommandGroup],
-    bot_owners: HashSet<UserId>
-) -> CommandResult {
-    let g = message.guild(&ctx.cache).unwrap();
-    
-    let width = 4;
-    let discrim = format!("{:0width$}", message.author.discriminator, width = width);
-
-    help_commands::with_embeds(ctx, message, arguments, &options, command_groups, bot_owners)
-}*/
-
 
 fn command_list(groups: &[&'static CommandGroup]) -> String {
     let mut s = "Bot made by <@!138302166619258880> & <@!214393232342122506>".to_string();

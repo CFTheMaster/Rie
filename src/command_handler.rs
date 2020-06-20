@@ -1,15 +1,10 @@
-use std::string::String;
 use rand::{Rng};
 
 use serenity::{
-    model::{channel::Message, gateway::Ready},
+    model::{gateway::Ready},
     prelude::*,
-    utils::MessageBuilder,
     framework::standard::{
-        StandardFramework,
-        CommandResult,
         macros::{
-            command,
             group
         }
     }
@@ -44,7 +39,7 @@ impl EventHandler for Handler {
             use serenity::model::gateway::Activity;
             use serenity::model::user::OnlineStatus;
 
-            let mut rng = rand::thread_rng().gen_range(0, 11);
+            let rng = rand::thread_rng().gen_range(0, 11);
 
             let status_dnd = OnlineStatus::DoNotDisturb;
             let status = OnlineStatus::Online;
@@ -81,7 +76,10 @@ impl EventHandler for Handler {
         }
     }
 
-    fn message(&self, ctx: Context, message: Message){
+    //TODO
+
+    /*fn message(&self, ctx: Context, message: Message){;
+
         let prefix: &'static str = "rie.";
 
         let mut ping_command = String::from(prefix);
@@ -137,5 +135,5 @@ impl EventHandler for Handler {
         
         }
         
-    }
+    }*/
 }

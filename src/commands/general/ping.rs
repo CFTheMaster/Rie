@@ -1,11 +1,8 @@
-use chrono::{offset::Utc, Duration};
-
 use serenity::{
-    client::{bridge::gateway::ShardId, Context},
+    client::{Context},
     framework::standard::{macros::command, CommandResult},
     model::prelude::Message
 };
-use std::mem;
 
 #[command]
 #[description = "Checks Discord's API / message latency."]

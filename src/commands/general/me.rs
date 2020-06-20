@@ -3,7 +3,6 @@ use serenity::{
     framework::standard::{macros::command, CommandResult},
     model::{prelude::Message}
 };
-use std::string::String;
 
 #[command]
 #[description = "just get a basic response"]
