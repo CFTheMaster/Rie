@@ -1,5 +1,7 @@
 mod command_handler;
 pub mod commands;
+mod utils;
+extern crate regex;
 
 use commands::{
     help::*,
