@@ -1,3 +1,5 @@
+#![allow(non_snake_case)]
+
 mod command_handler;
 pub mod commands;
 mod utils;
