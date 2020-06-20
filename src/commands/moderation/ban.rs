@@ -11,8 +11,8 @@ use std::fmt::write;
 #[command]
 #[only_in("guilds")]
 #[description = "Ban any user"]
-#[usage = "ban @user reason"]
-#[example = "ban @hammertime very very annoying"]
+#[usage = "ban @user -r reason"]
+#[example = "ban @hammertime -r very very annoying"]
 #[required_permissions("BAN_MEMBERS")]
 fn ban(ctx: &mut Context, message: &Message, mut args: Args) -> CommandResult {
     let raw_users = match args.single::<String>() {
