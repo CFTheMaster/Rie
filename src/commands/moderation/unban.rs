@@ -9,6 +9,7 @@ use regex::Regex;
 use crate::utils::user::get_id;
 
 #[command]
+#[only_in("guilds")]
 #[description = "Unban any user"]
 #[usage = "unban userid -r reason"]
 #[example = "unban 123456 -r appealed"]
