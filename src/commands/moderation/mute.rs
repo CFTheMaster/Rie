@@ -8,8 +8,8 @@ use serenity::{
 
 #[command]
 #[description = "Mute any user"]
-#[usage = "mute @user reason"]
-#[example = "mute @baka was spamming"]
+#[usage = "mute @user -r reason"]
+#[example = "mute @baka -r was spamming"]
 fn mute(ctx: &mut Context, message: &Message, args: Args) -> CommandResult {
 
 
