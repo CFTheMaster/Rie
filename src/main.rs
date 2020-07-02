@@ -2,6 +2,7 @@
 
 mod command_handler;
 pub mod commands;
+mod DatabaseWrapper;
 mod utils;
 extern crate regex;
 
@@ -16,9 +17,8 @@ use serenity::{
         StandardFramework,
     },
 };
+
 use typemap::Key;
-
-
 
 use std::{
     thread,
@@ -30,14 +30,16 @@ use std::{
 
 use serde::{Deserialize};
 
+
 #[derive(Default, Deserialize, Clone)]
 pub struct Settings { 
-    pub discord_token: String
+    pub database_url: String
 }
 
 impl Key for Settings { 
     type Value = Arc<Mutex<Settings>>;
 }
+
 
 fn init_settings() -> Settings {
     let mut f = std::fs::File::open("./tokens/config.toml").expect("Could not find the config.toml file. Please copy config.toml.example to config.toml and edit the resulting file");
@@ -53,14 +55,12 @@ impl TypeMapKey for ShardManagerContainer {
     type Value = Arc<Mutex<ShardManager>>;
 }
 
-
 fn main() {
-    let prefix: &'static str = "rie.";
-
     let settings = init_settings();
 
-    let mut client = Client::new(&settings.discord_token, command_handler::Handler).expect("Err creating client");
-
+    let prefix: &'static str = "rie.";
+    let url = &settings.database_url;
+    let mut client = Client::new(DatabaseWrapper::Database::fetchToken(url), command_handler::Handler).expect("Error creating client");
     
     {
         let mut data = client.data.write();

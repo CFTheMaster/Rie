@@ -1,33 +1,31 @@
 use diesel::prelude::*;
 
+use schema;
+
 #[derive(Queryable)]
-pub struct tokens {
-    pub discordToken: String,
+pub struct Tokens {
+    pub token_type: String,
+    pub token: String
 }
 
 #[derive(Queryable)]
-pub struct users {
-    pub users: i32,
-    pub blacklisted: i8,
+pub struct Blacklist {
+    pub id: i32
 }
 
-pub fn establish_connection -> PgConnection {
-    let database_url = "127.0.0.1:5432"
-    PgConnection::establish(&database_url)
+pub fn establish_connection(&str: url) -> PgConnection {
+    PgConnection::establish(url)
         .unwrap_or_else(|_| panic!("Error connecting to {}", database_url))
 }
 
-fn getPosts() {
-    use self::DatabaseWrapper::schema::discordToken::dsl::*;
+pub fn fetchToken(&str: url) -> String {
+    use schema::tokens::dsl::*;
 
-    let connection = establish_connection();
-    let results = discordToken
+    let connection = establish_connection(url);
+    let results = tokens
         .limit(1)
-        .load::<Post>(&connection)
-        .expect("Error loading posts");
+        .load::<Tokens>(&connection)
+        .expect("Error retrieving discord token");
 
-    println!("Displaying {} posts", results.len());
-    for post in results {
-        println!("{}", discordToken.discordToken);
-    }
+    return tokens.token;
 }
