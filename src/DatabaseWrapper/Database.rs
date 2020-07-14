@@ -1,6 +1,6 @@
 use diesel::prelude::*;
 
-use schema;
+use crate::DatabaseWrapper::schema;
 
 #[derive(Queryable)]
 pub struct Tokens {
