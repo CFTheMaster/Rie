@@ -1,31 +1,46 @@
+use crate::DatabaseWrapper::*;
+
 use diesel::prelude::*;
+use diesel::pg::PgConnection;
+use dotenv::dotenv;
+use std::env;
 
-use crate::DatabaseWrapper::schema;
+use crate::DatabaseWrapper::models::*;
 
-#[derive(Queryable)]
-pub struct Tokens {
-    pub token_type: String,
-    pub token: String
+pub fn establish_connection() -> PgConnection {
+    dotenv().ok();
+
+    let database_url = env::var("DATABASE_URL")
+        .expect("DATABASE_URL must be set in env");
+
+    PgConnection::establish(&database_url)
+        .expect(&format!("Error connecting to {}", database_url))
 }
 
-#[derive(Queryable)]
-pub struct Blacklist {
-    pub id: i32
-}
-
-pub fn establish_connection(&str: url) -> PgConnection {
-    PgConnection::establish(url)
-        .unwrap_or_else(|_| panic!("Error connecting to {}", database_url))
-}
-
-pub fn fetchToken(&str: url) -> String {
+pub fn getToken() -> String {
+    let mut pls: String = "please end your life, kthx".to_owned();
     use schema::tokens::dsl::*;
 
-    let connection = establish_connection(url);
+    let connection = establish_connection();
+    
     let results = tokens
-        .limit(1)
+        .filter(id.eq(1))
         .load::<Tokens>(&connection)
-        .expect("Error retrieving discord token");
+        .expect("Error getting tokens");
 
-    return tokens.token;
+    println!("is it working? {}", results.len());
+
+    for post in results {
+        let niceTokenBeLike: Option<String> = Some(post.token);
+        
+        let niceToken = niceTokenBeLike.as_ref().unwrap_or(&pls);
+
+        return niceToken.to_string();
+    };
+
+    let none: Option<String> = Some("1234".to_string());
+    let fuckYou = none.as_ref().unwrap_or(&pls);
+    
+    return fuckYou.to_string();
 }
+

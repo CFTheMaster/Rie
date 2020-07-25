@@ -1,5 +1,9 @@
 #![allow(non_snake_case)]
 
+#[macro_use]
+extern crate diesel;
+
+
 mod command_handler;
 pub mod commands;
 mod DatabaseWrapper;
@@ -33,7 +37,8 @@ use serde::{Deserialize};
 
 #[derive(Default, Deserialize, Clone)]
 pub struct Settings { 
-    pub database_url: String
+    pub discord_token: String,
+    pub database_url: String,
 }
 
 impl Key for Settings { 
@@ -58,9 +63,12 @@ impl TypeMapKey for ShardManagerContainer {
 fn main() {
     let settings = init_settings();
 
+    let _token = DatabaseWrapper::Database::getToken();
+
+
     let prefix: &'static str = "rie.";
-    let url = &settings.database_url;
-    let mut client = Client::new(DatabaseWrapper::Database::fetchToken(url), command_handler::Handler).expect("Error creating client");
+    println!("the current token: {}", _token);
+    let mut client = Client::new(&settings.discord_token, command_handler::Handler).expect("Error creating client");
     
     {
         let mut data = client.data.write();
