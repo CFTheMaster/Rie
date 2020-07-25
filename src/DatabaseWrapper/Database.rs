@@ -18,7 +18,7 @@ pub fn establish_connection() -> PgConnection {
 }
 
 pub fn getToken() -> String {
-    let mut pls: String = "please end your life, kthx".to_owned();
+    let pls: String = "please end your life, kthx".to_owned();
     use schema::tokens::dsl::*;
 
     let connection = establish_connection();
