@@ -5,8 +5,6 @@ use serenity::{
 };
 use serde::{Deserialize, Serialize};
 
-use curl::easy::Easy;
-
 use crate::ReadImage::imageReader::getAnImage;
 
 

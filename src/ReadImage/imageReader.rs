@@ -1,6 +1,5 @@
 use serde::{Deserialize, Serialize};
 use curl::easy::Easy;
-use serde_json::Result;
 
 #[derive(Serialize, Deserialize)]
 struct Image {
