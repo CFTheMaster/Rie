@@ -38,8 +38,8 @@ fn anime(ctx: &mut Context, message: &Message) -> CommandResult {
     
     if let Err(why) = message.channel_id.send_message(&ctx, |m| {
         m.embed(|e| {
-            e.title("Cute anime image");
-            e.image(v.url);
+            e.title("Cute anime image").url(&v.url);
+            e.image(&v.url);
 
             e
         });
