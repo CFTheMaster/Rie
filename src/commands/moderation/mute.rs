@@ -11,7 +11,7 @@ use serenity::{
 #[usage = "mute @user -r reason"]
 #[example = "mute @baka -r was spamming"]
 fn mute(ctx: &mut Context, message: &Message, args: Args) -> CommandResult {
-
+    
 
 
     Ok(())

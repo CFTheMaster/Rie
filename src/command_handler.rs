@@ -45,6 +45,7 @@ impl EventHandler for Handler {
             let status = OnlineStatus::Online;
             let status_afk = OnlineStatus::Idle;
 
+            // Make this into an array (WIP)
             match rng{
                 0 => ctx.set_presence(Some(Activity::playing("I'm an airplane!")), status_dnd),
                 1 => ctx.set_presence(Some(Activity::playing("Stop the memes!")), status),
