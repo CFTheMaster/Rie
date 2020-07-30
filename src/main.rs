@@ -8,6 +8,7 @@ mod command_handler;
 pub mod commands;
 mod DatabaseWrapper;
 mod utils;
+mod ReadImage;
 extern crate regex;
 
 use commands::{
