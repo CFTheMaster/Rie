@@ -68,6 +68,7 @@ fn main() {
 
     let prefix: &'static str = "rie.";
     println!("the current token: {}", _token);
+    println!("are the settings working? Token: {}, DB_Url: {}", &settings.discord_token, &settings.database_url);
     let mut client = Client::new(_token, command_handler::Handler).expect("Error creating client");
     
     {
