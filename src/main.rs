@@ -117,6 +117,7 @@ fn main() {
             .prefix(prefix))
         .group(&command_handler::GENERAL_GROUP)
         .group(&command_handler::MODERATION_GROUP)
+        .group(&command_handler::IMAGES_GROUP)
         .help(&HELP));
     
 

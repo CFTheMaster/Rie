@@ -23,6 +23,10 @@ use crate::commands::moderation::{
     unmute::*,
 };
 
+use crate::commands::images::{
+    anime::*
+};
+
 #[group]
 #[commands(me, ping, quit)]
 pub struct General;
@@ -30,6 +34,10 @@ pub struct General;
 #[group]
 #[commands(ban, unban, mute, unmute)]
 pub struct Moderation;
+
+#[group]
+#[commands(anime)]
+pub struct Images;
 
 
 pub struct Handler;
