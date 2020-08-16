@@ -19,3 +19,9 @@ this is just a basic bot to make me learn how to use Rust and get to know the ba
 | `unban` | unban users |
 | `mute` | mute users |
 | `unmute` | unmute users |
+
+
+| ***Image Commands*** | **Info**
+| --- | --- | 
+| `anime` | show a cute anime image |
+| `hentai` | get a lewd image |
