@@ -24,7 +24,8 @@ use crate::commands::moderation::{
 };
 
 use crate::commands::images::{
-    anime::*
+    anime::*,
+    hentai::*
 };
 
 #[group]
@@ -36,7 +37,7 @@ pub struct General;
 pub struct Moderation;
 
 #[group]
-#[commands(anime)]
+#[commands(anime, hentai)]
 pub struct Images;
 
 
