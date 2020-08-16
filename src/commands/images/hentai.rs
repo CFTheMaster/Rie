@@ -2,7 +2,6 @@ use serenity::{
     client::{Context},
     framework::standard::{macros::command, CommandResult},
     model::prelude::*,
-    framework::standard::CommandError
 };
 use serde::{Deserialize, Serialize};
 
