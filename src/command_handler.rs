@@ -19,13 +19,16 @@ use crate::commands::general::{
 use crate::commands::moderation::{
     ban::*,
     unban::*,
-    mute::*,
-    unmute::*,
 };
 
 use crate::commands::images::{
     anime::*,
-    hentai::*
+    hentai::*,
+    dva::*,
+    neko::*,
+    nsfwneko::*,
+    trap::*,
+    yuri::*,
 };
 
 #[group]
@@ -33,11 +36,11 @@ use crate::commands::images::{
 pub struct General;
 
 #[group]
-#[commands(ban, unban, mute, unmute)]
+#[commands(ban, unban)]
 pub struct Moderation;
 
 #[group]
-#[commands(anime, hentai)]
+#[commands(anime, hentai, dva, neko, nsfwneko, trap, yuri)]
 pub struct Images;
 
 
