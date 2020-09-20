@@ -14,6 +14,7 @@ use crate::commands::general::{
     me::*,
     ping::*,
     owner::*,
+    invite::*,
 };
 
 use crate::commands::moderation::{
@@ -32,7 +33,7 @@ use crate::commands::images::{
 };
 
 #[group]
-#[commands(me, ping, quit)]
+#[commands(me, ping, quit, invite)]
 pub struct General;
 
 #[group]

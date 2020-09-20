@@ -8,6 +8,8 @@ this is just a basic bot to make me learn how to use Rust and get to know the ba
 | --- | --- | 
 | `help` | gives you all the current commands |
 | `ping` | get a basic repsone that just says Pong! |
+| `me` | just a random command |
+| `ivite` | get the invite for the bot |
 
 | ***Owner Commands*** | **Info**
 | --- | --- | 
