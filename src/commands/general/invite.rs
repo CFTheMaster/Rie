@@ -15,7 +15,7 @@ fn invite(ctx: &mut Context, message: &Message) -> CommandResult{
             let width = 4;
             let discrim = format!("{:0width$}", message.author.discriminator, width = width);
             e.title("Rie Invite");
-            e.description(format!("[Click here for the invite](https://discord.com/oauth2/authorize?client_id=706219430912327742&scope=bot&permissions=67160068)"));
+            e.description(format!("[Click here for the invite](https://discord.com/oauth2/authorize?client_id=706219430912327742&scope=bot&permissions=314436)"));
             e.colour(Colour::new(6684876));
             e.footer(|f| {
                 f.icon_url(message.author.avatar_url().unwrap());
