@@ -37,8 +37,7 @@ use serde::{Deserialize};
 
 
 #[derive(Default, Deserialize, Clone)]
-pub struct Settings { 
-    pub discord_token: String,
+pub struct Settings {
     pub database_url: String,
 }
 
@@ -69,7 +68,7 @@ fn main() {
 
     let prefix: &'static str = "rie.";
     println!("the current token: {}", _token);
-    println!("are the settings working? Token: {}, DB_Url: {}", &settings.discord_token, &settings.database_url);
+    println!("are the settings working? Token: {}, DB_Url: {}", _token, &settings.database_url);
     let mut client = Client::new(_token, command_handler::Handler).expect("Error creating client");
     
     {
