@@ -119,7 +119,16 @@ fn main() {
         .group(&command_handler::GENERAL_GROUP)
         .group(&command_handler::MODERATION_GROUP)
         .group(&command_handler::IMAGES_GROUP)
-        .help(&HELP));
+        .help(&HELP)
+        .after(|_ctx, msg, cmd_name, error| {
+            if let Err(why) = error {
+                println!("ERROR: An error ocurred on the command '{}'.\n{:?}", cmd_name, why);
+            } else {
+                let width = 4;
+                let discrim = format!("{:0width$}", msg.author.discriminator, width = width);
+                println!("Log: Command '{}' executed by '{}#{}' ({}).", cmd_name, msg.author.name, discrim, msg.author.id);
+            }
+        }));
     
 
     if let Err(why) = client.start() {

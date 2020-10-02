@@ -38,12 +38,6 @@ fn yuri(ctx: &mut Context, message: &Message) -> CommandResult {
         let _ = message.channel_id.say(&ctx.http, "Missing permissions");
     }
 
-    let g = message.guild(&ctx.cache).unwrap();
-    let width = 4;
-    let discrim = format!("{:0width$}", message.author.discriminator, width = width);
-
-    println!("Processed command 'yuri' by user '{}#{}' ({}) in guild '{}' ({}) ", message.author.name, discrim, message.author.id, &g.read().name, &g.read().id);
-
     Ok(())
 
 
