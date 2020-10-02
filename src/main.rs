@@ -23,36 +23,12 @@ use serenity::{
     },
 };
 
-use typemap::Key;
-
 use std::{
     thread,
     time::Duration,
     sync::{ Arc },
-    io::{ Read },
     collections::{ HashSet },
 };
-
-use serde::{Deserialize};
-
-
-#[derive(Default, Deserialize, Clone)]
-pub struct Settings {
-    pub database_url: String,
-}
-
-impl Key for Settings { 
-    type Value = Arc<Mutex<Settings>>;
-}
-
-
-fn init_settings() -> Settings {
-    let mut f = std::fs::File::open("./tokens/config.toml").expect("Could not find the config.toml file. Please copy config.toml.example to config.toml and edit the resulting file");
-    let mut contents = String::new();
-    f.read_to_string(&mut contents)
-        .expect("Could not read configuration file");
-    toml::from_str(&contents).expect("Could not deserialize configuration")
-}
 
 pub struct ShardManagerContainer;
 
@@ -61,14 +37,12 @@ impl TypeMapKey for ShardManagerContainer {
 }
 
 fn main() {
-    let settings = init_settings();
 
     let _token = DatabaseWrapper::Database::getToken();
 
 
     let prefix: &'static str = "rie.";
     println!("the current token: {}", _token);
-    println!("are the settings working? Token: {}, DB_Url: {}", _token, &settings.database_url);
     let mut client = Client::new(_token, command_handler::Handler).expect("Error creating client");
     
     {
