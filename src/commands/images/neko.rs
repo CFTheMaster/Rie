@@ -28,6 +28,14 @@ fn neko(ctx: &mut Context, message: &Message) -> CommandResult {
         m.embed(|e| {
             e.title("Cute neko image").url(&cuteAnimePic);
             e.image(&cuteAnimePic);
+            let width = 4;
+            let discrim = format!("{:0width$}", message.author.discriminator, width = width);
+            e.footer(|f| {
+                f.icon_url(message.author.avatar_url().unwrap());
+                f.text(format!("Executed by {}#{} ({})", message.author.name, discrim, message.author.id));
+
+                f
+            });
 
             e
         });
