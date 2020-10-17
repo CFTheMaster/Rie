@@ -19,7 +19,7 @@ fn invite(ctx: &mut Context, message: &Message) -> CommandResult{
             e.colour(Colour::new(6684876));
             e.footer(|f| {
                 f.icon_url(message.author.avatar_url().unwrap());
-                f.text(format!("This command was executed by {}#{}", message.author.name, discrim));
+                f.text(format!("This command was executed by {}#{} ({})", message.author.name, discrim, message.author.id));
 
                 f
             });
