@@ -6,6 +6,8 @@ use serenity::{
 };
 use crate::ShardManagerContainer;
 
+use std::process::Command;
+
 
 #[command]
 #[description = "Checks Discord's API / message latency."]
@@ -40,11 +42,26 @@ fn ping(ctx: &mut Context, message: &Message) -> CommandResult {
         },
     };
 
+    let pinger = if cfg!(target_os = "windows") {
+        Command::new("cmd")
+        .args(&["/C","curl --output NUL --write-out %{time_connect} https://discord.com/api/v8/"])
+        .output()
+        .expect("failed to execute process")
+    } else {
+        Command::new("sh")
+        .arg("-c")
+        .arg("curl --output /dev/null --write-out %{time_connect} https://discord.com/api/v8/")
+        .output()
+        .expect("failed to execute process")
+    };
 
-    let _ = message.reply(&ctx, &format!("The shard latency is {:?}", runner.latency));
+    let mut pingponger = String::new();
+
+    pingponger.push_str(&String::from_utf8(pinger.stdout).unwrap());
+    let _trimmed = pingponger.trim_end_matches("000").trim_start_matches("0,").to_owned();
+
+    let _ = message.reply(&ctx, &format!("The shard latency is {:?}, Websocket latency is {}ms", runner.latency, _trimmed));
 
     Ok(())
-
-
 
 }
