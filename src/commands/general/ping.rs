@@ -50,7 +50,7 @@ fn ping(ctx: &mut Context, message: &Message) -> CommandResult {
     } else {
         Command::new("sh")
         .arg("-c")
-        .arg("curl --output /dev/null --write-out %{time_connect} https://discord.com/api/v8/")
+        .arg("curl --output /dev/null --write-out %{time_connect} wss://gateway.discord.gg/?v=8&encoding=json")
         .output()
         .expect("failed to execute process")
     };
