@@ -2,6 +2,7 @@ use serenity::{
     client::Context,
     framework::standard::{macros::help, CommandResult, Args, CommandGroup, Command, HelpOptions},
     model::{prelude::{Message, UserId}},
+    utils::Colour,
 };
 use std::string::String;
 use std::collections::HashSet;
@@ -17,11 +18,20 @@ async fn help(ctx: &Context, message: &Message, args: Args, _help_options: &'sta
         _ => s.push_str("Too many arguments."),
     };
 
+    let width = 4;
+    let discrim = format!("{:0width$}", message.author.discriminator, width = width);
 
     message.channel_id.send_message(&ctx, |m| {
         m.embed(|e| {
             e.title("Help Command");
             e.description(&s);
+            e.colour(Colour::new(6684876));
+            e.footer(|f| {
+                f.icon_url(message.author.avatar_url().unwrap());
+                f.text(format!("Executed by {}#{} ({})", message.author.name, discrim, message.author.id));
+
+                f
+            });
 
             e
         });
