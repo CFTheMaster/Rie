@@ -18,7 +18,7 @@ struct Image {
 #[description = "Send a cute baguette image"]
 #[usage = "baguette"]
 #[example = "baguette"]
-async fn anime(ctx: &Context, message: &Message) -> CommandResult {
+async fn baguette(ctx: &Context, message: &Message) -> CommandResult {
 
     let uri = "https://api.computerfreaker.cf/v1/baguette".to_owned();
 
