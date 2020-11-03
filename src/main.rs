@@ -134,6 +134,7 @@ async fn main() {
         }
     });
     
+    DatabaseWrapper::Database::basicChecker();
 
     if let Err(why) = client.start_autosharded().await {
         println!("Client error: {:?}", why);

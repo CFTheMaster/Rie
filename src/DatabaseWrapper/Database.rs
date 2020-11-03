@@ -44,3 +44,9 @@ pub fn getToken() -> String {
     return fuckYou.to_string();
 }
 
+pub fn basicChecker(){
+    println!("Bot made by computerfreaker#0015 & 小路綾#7541");
+    println!("Rie: https://github.com/CFTheMaster/Rie");
+    println!("\n██████╗░██╗███████╗\n██╔══██╗██║██╔════╝\n██████╔╝██║█████╗░░\n██╔══██╗██║██╔══╝░░\n██║░░██║██║███████╗\n╚═╝░░╚═╝╚═╝╚══════╝\n");
+}
+
