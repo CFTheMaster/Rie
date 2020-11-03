@@ -60,9 +60,9 @@ async fn ping(ctx: &Context, message: &Message) -> CommandResult {
     let mut pingponger = String::new();
 
     pingponger.push_str(&String::from_utf8(pinger.stdout).unwrap());
-    let _trimmed = pingponger.trim_end_matches("000").trim_start_matches("0,").to_owned();
+    let _trimmed = pingponger.to_owned();
 
-    message.reply(&ctx, &format!("The shard latency is {:?}, Websocket latency is {}ms", runner.latency, _trimmed)).await?;
+    message.reply(&ctx, &format!("The shard latency is {:?}, Websocket latency is {} seconds", runner.latency, _trimmed)).await?;
 
     Ok(())
 

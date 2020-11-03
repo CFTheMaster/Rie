@@ -1,15 +1,10 @@
 use rand::{self, Rng}; 
 use dotenv::dotenv;
 use std::env;
-use std::thread;
 
 use tracing::{info};
 
-use tokio::time::{Duration};
-use tokio::time;
-use tokio::runtime::Runtime;
 
-use tokio::task;
 
 use serenity::{
     async_trait,
