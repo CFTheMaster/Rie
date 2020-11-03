@@ -38,7 +38,11 @@ use serenity::{
 use std::{
     collections::HashSet,
     sync::Arc,
+    time::Duration
 };
+
+use tokio::time::delay_for;
+
 
 pub struct ShardManagerContainer;
 
@@ -89,7 +93,8 @@ async fn main() {
             .with_whitespace(true)
             .on_mention(Some(_bot_id))
             .owners(owners)
-            .prefix(prefix))
+            .prefix(prefix)
+            .case_insensitivity(true))
         .group(&command_handler::GENERAL_GROUP)
         .group(&command_handler::IMAGES_GROUP)
         .help(&HELP)
@@ -109,12 +114,25 @@ async fn main() {
     let shard_manager = client.shard_manager.clone();
 
     tokio::spawn(async move {
-        tokio::signal::ctrl_c().await.expect("Could not register ctrl+c handler");
-        shard_manager.lock().await.shutdown_all().await;
+        loop {
+            delay_for(Duration::from_secs(30)).await;
+
+            let lock = shard_manager.lock().await;
+            let shard_runners = lock.runners.lock().await;
+
+            for (id, runner) in shard_runners.iter() {
+                println!(
+                    "Shard ID {} is {} with a latency of {:?}",
+                    id,
+                    runner.stage,
+                    runner.latency,
+                );
+            }
+        }
     });
     
 
-    if let Err(why) = client.start().await {
+    if let Err(why) = client.start_autosharded().await {
         println!("Client error: {:?}", why);
     }
 }
