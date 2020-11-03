@@ -8,7 +8,7 @@ use std::collections::HashSet;
 
 
 #[help]
-fn help(ctx: &mut Context, message: &Message, args: Args, _help_options: &'static HelpOptions, groups: &[&'static CommandGroup], _owners: HashSet<UserId>,) -> CommandResult{
+async fn help(ctx: &Context, message: &Message, args: Args, _help_options: &'static HelpOptions, groups: &[&'static CommandGroup], _owners: HashSet<UserId>,) -> CommandResult{
     let mut s = String::new();
 
     match args.len() {
@@ -18,7 +18,7 @@ fn help(ctx: &mut Context, message: &Message, args: Args, _help_options: &'stati
     };
 
 
-    if let Err(why) = message.channel_id.send_message(&ctx, |m| {
+    message.channel_id.send_message(&ctx, |m| {
         m.embed(|e| {
             e.title("Help Command");
             e.description(&s);
@@ -27,18 +27,10 @@ fn help(ctx: &mut Context, message: &Message, args: Args, _help_options: &'stati
         });
 
         m
-    }) {
-        println!("Error: {:?}", why);
-        let _ = message.channel_id.say(&ctx.http, "Missing permissions");
-    }
+    }).await?;
 
-    let g = message.guild(&ctx.cache).unwrap();
+    let _g = message.guild(&ctx.cache).await.unwrap();
     
-    let width = 4;
-    let discrim = format!("{:0width$}", message.author.discriminator, width = width);
-
-    println!("Processed command 'help' by user '{}#{}' ({}) in guild '{}' ({}) ", message.author.name, discrim, message.author.id, &g.read().name, &g.read().id);
-
     Ok(())
     
 }

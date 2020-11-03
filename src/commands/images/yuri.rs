@@ -18,13 +18,13 @@ struct Image {
 #[description = "Send a yuri anime image"]
 #[usage = "yuri"]
 #[example = "yuri"]
-fn yuri(ctx: &mut Context, message: &Message) -> CommandResult {
+async fn yuri(ctx: &Context, message: &Message) -> CommandResult {
 
     let uri = "https://api.computerfreaker.cf/v1/yuri".to_owned();
 
     let cuteAnimePic = getAnImage(uri);
     
-    if let Err(why) = message.channel_id.send_message(&ctx, |m| {
+    message.channel_id.send_message(&ctx, |m| {
         m.embed(|e| {
             e.title("Cute yuri image").url(&cuteAnimePic);
             e.image(&cuteAnimePic);
@@ -41,10 +41,7 @@ fn yuri(ctx: &mut Context, message: &Message) -> CommandResult {
         });
 
         m
-    }) {
-        println!("Error: {:?}", why);
-        let _ = message.channel_id.say(&ctx.http, "Missing permissions");
-    }
+    }).await?;
 
     Ok(())
 

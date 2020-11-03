@@ -18,16 +18,9 @@ struct Image {
 #[description = "Send a lewd trap image"]
 #[usage = "trap"]
 #[example = "trap"]
-fn trap(ctx: &mut Context, message: &Message) -> CommandResult {
-    if !message.channel(&ctx).unwrap().is_nsfw() {
-        let _ = message.channel_id.say(&ctx.http, "This command must be run in an NSFW Channel.");
-
-
-        let g = message.guild(&ctx.cache).unwrap();
-        let width = 4;
-        let discrim = format!("{:0width$}", message.author.discriminator, width = width);
-
-        println!("Wrong channel executed command 'trap' by user '{}#{}' ({}) in guild '{}' ({}) ", message.author.name, discrim, message.author.id, &g.read().name, &g.read().id);
+async fn trap(ctx: &Context, message: &Message) -> CommandResult {
+    if !message.channel(&ctx).await.unwrap().is_nsfw() {
+        let _ = message.channel_id.say(&ctx.http, "This command must be run in an NSFW Channel.").await;
 
         Ok(())
     } else {
@@ -35,7 +28,7 @@ fn trap(ctx: &mut Context, message: &Message) -> CommandResult {
 
         let hentaiPic = getAnImage(uri);
         
-        if let Err(why) = message.channel_id.send_message(&ctx, |m| {
+        message.channel_id.send_message(&ctx, |m| {
             m.embed(|e| {
                 e.title("Trap image").url(&hentaiPic);
                 e.image(&hentaiPic);
@@ -52,10 +45,7 @@ fn trap(ctx: &mut Context, message: &Message) -> CommandResult {
             });
 
             m
-        }) {
-            println!("Error: {:?}", why);
-            let _ = message.channel_id.say(&ctx.http, "Missing permissions");
-        }
+        }).await?;
         
         Ok(())
 

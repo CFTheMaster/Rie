@@ -9,8 +9,8 @@ use serenity::{
 #[description = "get the invite for the bot"]
 #[usage = "invite"]
 #[example = "invite"]
-fn invite(ctx: &mut Context, message: &Message) -> CommandResult{
-    if let Err(why) = message.channel_id.send_message(&ctx, |m| {
+async fn invite(ctx: &Context, message: &Message) -> CommandResult{
+    message.channel_id.send_message(&ctx, |m| {
         m.embed(|e| {
             let width = 4;
             let discrim = format!("{:0width$}", message.author.discriminator, width = width);
@@ -27,10 +27,7 @@ fn invite(ctx: &mut Context, message: &Message) -> CommandResult{
         });
 
         m
-    }) {
-        println!("Error: {:?}", why);
-        let _ = message.channel_id.say(&ctx.http, "Missing permissions");
-    }
+    }).await?;
 
     Ok(()) 
 }

@@ -11,23 +11,33 @@ mod utils;
 mod ReadImage;
 extern crate regex;
 
+use tracing_subscriber::{
+    FmtSubscriber,
+    EnvFilter,
+};
+
 use commands::{
     help::*,
 };
 
 use serenity::{
+    
     client::bridge::gateway::ShardManager,
-    prelude::*,
     framework::{
         StandardFramework,
+        standard::{
+            CommandResult,
+            macros::hook,
+        },
     },
+    http::Http,
+    model::channel::Message,
+    prelude::*,
 };
 
 use std::{
-    thread,
-    time::Duration,
-    sync::{ Arc },
-    collections::{ HashSet },
+    collections::HashSet,
+    sync::Arc,
 };
 
 pub struct ShardManagerContainer;
@@ -36,75 +46,75 @@ impl TypeMapKey for ShardManagerContainer {
     type Value = Arc<Mutex<ShardManager>>;
 }
 
-fn main() {
+#[hook]
+async fn after(_ctx: &Context, _msg: &Message, command_name: &str, command_result: CommandResult){
+    let width = 4;
+    let discrim = format!("{:0width$}", _msg.author.discriminator, width = width);
+    match command_result {
+        Ok(()) => println!("Log: Command '{}' executed by '{}#{}' ({}).", command_name, _msg.author.name, discrim, _msg.author.id),
+        Err(why) => println!("ERROR: An error ocurred on the command '{}'.\n{:?}", command_name, why)
+    }
+}
+
+#[tokio::main]
+async fn main() {
 
     let _token = DatabaseWrapper::Database::getToken();
 
 
     let prefix: &'static str = "rie.";
     println!("the current token: {}", _token);
-    let mut client = Client::new(_token, command_handler::Handler).expect("Error creating client");
-    
-    {
-        let mut data = client.data.write();
-        data.insert::<ShardManagerContainer>(Arc::clone(&client.shard_manager));
-    }
 
-    
-    let manager = client.shard_manager.clone();
+    let subscriber = FmtSubscriber::builder()
+        .with_env_filter(EnvFilter::from_default_env())
+        .finish();
 
-    thread::spawn(move || {
-        loop {
-            thread::sleep(Duration::from_secs(30));
+    tracing::subscriber::set_global_default(subscriber).expect("Failed to start the logger");
 
-            let lock = manager.lock();
-            let shard_runners = lock.runners.lock();
+    let http = Http::new_with_token(&_token);
 
-            for (id, runner) in shard_runners.iter() {
-                println!(
-                    "Shard ID {} is {} with a latency of {:?}",
-                    id,
-                    runner.stage,
-                    runner.latency,
-                );
-            }
-        }
-    });
-    let (owners, bot_id) = match client.cache_and_http.http.get_current_application_info() {
+    // We will fetch your bot's owners and id
+    let (owners, _bot_id) = match http.get_current_application_info().await {
         Ok(info) => {
             let mut owners = HashSet::new();
             owners.insert(info.owner.id);
 
-            println!("Owners: {}, Bot ID: {}", info.owner.id, info.id);
             (owners, info.id)
-            
         },
         Err(why) => panic!("Could not access application info: {:?}", why),
     };
 
-    //TO-DO
-    client.with_framework(StandardFramework::new()
+    let framework = StandardFramework::new()
         .configure(|c| c
             .with_whitespace(true)
-            .on_mention(Some(bot_id))
+            .on_mention(Some(_bot_id))
             .owners(owners)
             .prefix(prefix))
         .group(&command_handler::GENERAL_GROUP)
-        .group(&command_handler::MODERATION_GROUP)
         .group(&command_handler::IMAGES_GROUP)
         .help(&HELP)
-        .after(|_ctx, msg, cmd_name, error| {
-            if let Err(why) = error {
-                println!("ERROR: An error ocurred on the command '{}'.\n{:?}", cmd_name, why);
-            } else {
-                let width = 4;
-                let discrim = format!("{:0width$}", msg.author.discriminator, width = width);
-                println!("Log: Command '{}' executed by '{}#{}' ({}).", cmd_name, msg.author.name, discrim, msg.author.id);
-            }
-        }));
+        .after(after);
+
+    let mut client = Client::builder(_token)
+        .event_handler(command_handler::Handler)
+        .framework(framework)
+        .await
+        .expect("Error creating client");
+    
+    {
+        let mut data = client.data.write().await;
+        data.insert::<ShardManagerContainer>(Arc::clone(&client.shard_manager));
+    }
+
+    let shard_manager = client.shard_manager.clone();
+
+    tokio::spawn(async move {
+        tokio::signal::ctrl_c().await.expect("Could not register ctrl+c handler");
+        shard_manager.lock().await.shutdown_all().await;
+    });
     
 
-    if let Err(why) = client.start() {
+    if let Err(why) = client.start().await {
         println!("Client error: {:?}", why);
     }
 }
