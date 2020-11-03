@@ -10,16 +10,11 @@ this is just a basic bot to make me learn how to use Rust and get to know the ba
 | `ping` | get a basic repsone that just says Pong! |
 | `me` | just a random command |
 | `invite` | get the invite for the bot |
+| `system` | get the system info |
 
 | ***Owner Commands*** | **Info**
 | --- | --- | 
 | `quit` | exits the bot |
-
-| ***Moderation Commands*** | **Info**
-| --- | --- | 
-| `ban` | ban users |
-| `unban` | unban users |
-
 
 | ***Image Commands*** | **Info**
 | --- | --- | 
