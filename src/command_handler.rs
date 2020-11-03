@@ -52,7 +52,7 @@ impl EventHandler for Handler {
     async fn ready(&self, ctx: Context, ready: Ready) {
         if let Some(shard) = ready.shard {
             println!("Bot made by computerfreaker#0015 & 小路綾#7541");
-            println!("\n██████╗░██╗███████╗\n██╔══██╗██║██╔════╝\n██████╔╝██║█████╗░░\n██╔══██╗██║██╔══╝░░\n██║░░██║██║███████╗\n╚═╝░░╚═╝╚═╝╚══════╝");
+            println!("\n██████╗░██╗███████╗\n██╔══██╗██║██╔════╝\n██████╔╝██║█████╗░░\n██╔══██╗██║██╔══╝░░\n██║░░██║██║███████╗\n╚═╝░░╚═╝╚═╝╚══════╝\n");
             dotenv().ok();
             use serenity::model::gateway::Activity;
             use serenity::model::user::OnlineStatus;
