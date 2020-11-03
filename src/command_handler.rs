@@ -27,6 +27,7 @@ use crate::commands::general::{
 
 use crate::commands::images::{
     anime::*,
+    baguette::*,
     hentai::*,
     dva::*,
     neko::*,
@@ -41,7 +42,7 @@ use crate::commands::images::{
 pub struct General;
 
 #[group]
-#[commands(anime, hentai, dva, neko, nsfwneko, trap, yuri)]
+#[commands(anime,baguette, hentai, dva, neko, nsfwneko, trap, yuri)]
 pub struct Images;
 
 pub struct Handler;
