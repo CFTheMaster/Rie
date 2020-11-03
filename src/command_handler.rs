@@ -89,24 +89,6 @@ impl EventHandler for Handler {
         }
     }
 
-    /*async fn ready(&self, ctx: &Context, data: Ready){
-        
-        let mut rt = tokio::runtime::Runtime::new().unwrap();
-        rt.block_on(statusChanger(&ctx));
-
-        if let Some(shard) = data.shard {            
-
-            // Note that array index 0 is 0-indexed, while index 1 is 1-indexed.
-            //
-            // This may seem unintuitive, but it models Discord's behaviour.
-            info!(
-                
-            );
-
-            
-        }
-    }*/
-
     async fn resume(&self, _: Context, _: ResumedEvent) {
         info!("Resumed");
     }
