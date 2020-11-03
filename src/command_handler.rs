@@ -22,6 +22,7 @@ use crate::commands::general::{
     ping::*,
     owner::*,
     invite::*,
+    system::*,
 };
 
 use crate::commands::images::{
@@ -36,7 +37,7 @@ use crate::commands::images::{
 
 
 #[group]
-#[commands(me, ping, quit, invite)]
+#[commands(me, ping, quit, invite, system)]
 pub struct General;
 
 #[group]

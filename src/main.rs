@@ -3,6 +3,7 @@
 #[macro_use]
 extern crate diesel;
 
+extern crate sys_info;
 
 mod command_handler;
 pub mod commands;
@@ -121,12 +122,14 @@ async fn main() {
             let shard_runners = lock.runners.lock().await;
 
             for (id, runner) in shard_runners.iter() {
-                println!(
+                let _ = runner.stage;
+                let _ = runner.latency;
+                /*println!(
                     "Shard ID {} is {} with a latency of {:?}",
                     id,
                     runner.stage,
                     runner.latency,
-                );
+                );*/
             }
         }
     });
