@@ -26,7 +26,7 @@ async fn baguette(ctx: &Context, message: &Message) -> CommandResult {
     
     message.channel_id.send_message(&ctx, |m| {
         m.embed(|e| {
-            e.title("Cute anime image").url(&cuteAnimePic);
+            e.title("Cute baguette image").url(&cuteAnimePic);
             e.image(&cuteAnimePic);
             let width = 4;
             let discrim = format!("{:0width$}", message.author.discriminator, width = width);
