@@ -26,3 +26,6 @@ this is just a basic bot to make me learn how to use Rust and get to know the ba
 | `nsfwneko` | get a lewd neko image |
 | `trap` | get a lewd trap image |
 | `yuri` | get a cute yuri image |
+
+### Invite
+[Click here for invite](https://discord.com/oauth2/authorize?client_id=706219430912327742&scope=bot&permissions=314436)
