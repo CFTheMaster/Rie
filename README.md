@@ -19,6 +19,7 @@ this is just a basic bot to make me learn how to use Rust and get to know the ba
 | ***Image Commands*** | **Info**
 | --- | --- | 
 | `anime` | show a cute anime image |
+| `baguette` | get a cute baguette image |
 | `hentai` | get a lewd image |
 | `dva` | get a lewd D.VA image |
 | `neko` | get a cute neko image |
