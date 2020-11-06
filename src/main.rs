@@ -132,6 +132,7 @@ async fn main() {
             for (id, runner) in shard_runners.iter() {
                 let _ = runner.stage;
                 let _ = runner.latency;
+                let _ = id;
                 /*println!(
                     "Shard ID {} is {} with a latency of {:?}",
                     id,
