@@ -55,9 +55,17 @@ impl TypeMapKey for ShardManagerContainer {
 async fn after(_ctx: &Context, _msg: &Message, command_name: &str, command_result: CommandResult){
     let width = 4;
     let discrim = format!("{:0width$}", _msg.author.discriminator, width = width);
-    match command_result {
-        Ok(()) => println!("Log: Command '{}' executed by '{}#{}' ({}).", command_name, _msg.author.name, discrim, _msg.author.id),
-        Err(why) => println!("ERROR: An error ocurred on the command '{}'.\n{:?}", command_name, why)
+    if _msg.is_private() {
+        match command_result {
+            Ok(()) => println!("Log: Command '{}' executed by '{}#{}' ({}) in DMs", command_name, _msg.author.name, discrim, _msg.author.id),
+            Err(why) => println!("ERROR: An error ocurred on the command '{}'.\n{:?}", command_name, why)
+        }
+    } 
+    else {
+        match command_result {
+            Ok(()) => println!("Log: Command '{}' executed by '{}#{}' ({}) in guild {} ({}).", command_name, _msg.author.name, discrim, _msg.author.id, _msg.guild(&_ctx.cache).await.unwrap().name,  _msg.guild(&_ctx.cache).await.unwrap().id),
+            Err(why) => println!("ERROR: An error ocurred on the command '{}'.\n{:?}", command_name, why)
+        }
     }
 }
 
