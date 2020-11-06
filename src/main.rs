@@ -63,7 +63,7 @@ async fn after(_ctx: &Context, _msg: &Message, command_name: &str, command_resul
     } 
     else {
         match command_result {
-            Ok(()) => println!("Log: Command '{}' executed by '{}#{}' ({}) in guild {} ({}).", command_name, _msg.author.name, discrim, _msg.author.id, _msg.guild(&_ctx.cache).await.unwrap().name,  _msg.guild(&_ctx.cache).await.unwrap().id),
+            Ok(()) => println!("Log: Command '{}' executed by '{}#{}' ({}) in guild: '{}' ({}).", command_name, _msg.author.name, discrim, _msg.author.id, _msg.guild(&_ctx.cache).await.unwrap().name,  _msg.guild(&_ctx.cache).await.unwrap().id),
             Err(why) => println!("ERROR: An error ocurred on the command '{}'.\n{:?}", command_name, why)
         }
     }
