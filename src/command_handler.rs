@@ -36,6 +36,8 @@ use crate::commands::images::{
     yuri::*,
 };
 
+use crate::DatabaseWrapper::Database;
+
 
 #[group]
 #[commands(me, ping, quit, invite, system)]
@@ -85,7 +87,9 @@ impl EventHandler for Handler {
                 shard[0],
                 shard[1],
                 ready.guilds.capacity()
-            )
+            );
+
+            Database::basicChecker();
         }
     }
 
