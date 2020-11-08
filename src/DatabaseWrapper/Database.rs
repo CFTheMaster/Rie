@@ -28,7 +28,7 @@ pub fn getToken() -> String {
         .load::<Tokens>(&connection)
         .expect("Error getting tokens");
 
-    println!("is it working? {}", results.len());
+    // println!("is it working? {}", results.len());
 
     for post in results {
         let niceTokenBeLike: Option<String> = Some(post.token);

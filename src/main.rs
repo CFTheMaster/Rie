@@ -76,7 +76,7 @@ async fn main() {
 
 
     let prefix: &'static str = "rie.";
-    println!("the current token: {}", _token);
+    // println!("the current token: {}", _token);
 
     let subscriber = FmtSubscriber::builder()
         .with_env_filter(EnvFilter::from_default_env())
