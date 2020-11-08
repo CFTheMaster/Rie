@@ -36,6 +36,8 @@ use crate::commands::images::{
     yuri::*,
 };
 
+use crate::DatabaseWrapper::Database;
+
 
 #[group]
 #[commands(me, ping, quit, invite, system)]
@@ -79,13 +81,15 @@ impl EventHandler for Handler {
             //
             // This may seem unintuitive, but it models Discord's behaviour.
 
-            info!("{}#{} is connected on shard {}/{} and {} guild(s)",
+            println!("{}#{} is connected on shard {}/{} and {} guild(s)\n",
                 ready.user.name,
                 ready.user.discriminator,
                 shard[0],
                 shard[1],
                 ready.guilds.capacity()
-            )
+            );
+
+            Database::basicChecker();
         }
     }
 
