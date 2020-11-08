@@ -1,33 +1,52 @@
+use crate::DatabaseWrapper::*;
+
 use diesel::prelude::*;
+use diesel::pg::PgConnection;
+use dotenv::dotenv;
+use std::env;
 
-#[derive(Queryable)]
-pub struct tokens {
-    pub discordToken: String,
-}
+use crate::DatabaseWrapper::models::*;
 
-#[derive(Queryable)]
-pub struct users {
-    pub users: i32,
-    pub blacklisted: i8,
-}
+pub fn establish_connection() -> PgConnection {
+    dotenv().ok();
 
-pub fn establish_connection -> PgConnection {
-    let database_url = "127.0.0.1:5432"
+    let database_url = env::var("DATABASE_URL")
+        .expect("DATABASE_URL must be set in env");
+
     PgConnection::establish(&database_url)
-        .unwrap_or_else(|_| panic!("Error connecting to {}", database_url))
+        .expect(&format!("Error connecting to {}", database_url))
 }
 
-fn getPosts() {
-    use self::DatabaseWrapper::schema::discordToken::dsl::*;
+pub fn getToken() -> String {
+    let pls: String = "please end your life, kthx".to_owned();
+    use schema::tokens::dsl::*;
 
     let connection = establish_connection();
-    let results = discordToken
-        .limit(1)
-        .load::<Post>(&connection)
-        .expect("Error loading posts");
+    
+    let results = tokens
+        .filter(id.eq(1))
+        .load::<Tokens>(&connection)
+        .expect("Error getting tokens");
 
-    println!("Displaying {} posts", results.len());
+    // println!("is it working? {}", results.len());
+
     for post in results {
-        println!("{}", discordToken.discordToken);
-    }
+        let niceTokenBeLike: Option<String> = Some(post.token);
+        
+        let niceToken = niceTokenBeLike.as_ref().unwrap_or(&pls);
+
+        return niceToken.to_string();
+    };
+
+    let none: Option<String> = Some("1234".to_string());
+    let fuckYou = none.as_ref().unwrap_or(&pls);
+    
+    return fuckYou.to_string();
 }
+
+pub fn basicChecker(){
+    println!("Bot made by computerfreaker#0015 & 小路綾#7541");
+    println!("Rie: https://github.com/CFTheMaster/Rie");
+    println!("\n██████╗░██╗███████╗\n██╔══██╗██║██╔════╝\n██████╔╝██║█████╗░░\n██╔══██╗██║██╔══╝░░\n██║░░██║██║███████╗\n╚═╝░░╚═╝╚═╝╚══════╝\n");
+}
+

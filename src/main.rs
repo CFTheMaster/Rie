@@ -1,117 +1,151 @@
 #![allow(non_snake_case)]
 
+#[macro_use]
+extern crate diesel;
+
+extern crate sys_info;
+
 mod command_handler;
 pub mod commands;
+mod DatabaseWrapper;
 mod utils;
+mod ReadImage;
 extern crate regex;
+
+use tracing_subscriber::{
+    FmtSubscriber,
+    EnvFilter,
+};
 
 use commands::{
     help::*,
 };
 
 use serenity::{
+    
     client::bridge::gateway::ShardManager,
-    prelude::*,
     framework::{
         StandardFramework,
+        standard::{
+            CommandResult,
+            macros::hook,
+        },
     },
+    http::Http,
+    model::channel::Message,
+    prelude::*,
 };
-use typemap::Key;
-
-
 
 use std::{
-    thread,
-    time::Duration,
-    sync::{ Arc },
-    io::{ Read },
-    collections::{ HashSet },
+    collections::HashSet,
+    sync::Arc,
+    time::Duration
 };
 
-use serde::{Deserialize};
+use tokio::time::delay_for;
 
-#[derive(Default, Deserialize, Clone)]
-pub struct Settings { 
-    pub discord_token: String
-}
 
-impl Key for Settings { 
-    type Value = Arc<Mutex<Settings>>;
-}
-
-fn init_settings() -> Settings {
-    let mut f = std::fs::File::open("./tokens/config.toml").expect("Could not find the config.toml file. Please copy config.toml.example to config.toml and edit the resulting file");
-    let mut contents = String::new();
-    f.read_to_string(&mut contents)
-        .expect("Could not read configuration file");
-    toml::from_str(&contents).expect("Could not deserialize configuration")
-}
-
-struct ShardManagerContainer;
+pub struct ShardManagerContainer;
 
 impl TypeMapKey for ShardManagerContainer {
     type Value = Arc<Mutex<ShardManager>>;
 }
 
-
-fn main() {
-    let prefix: &'static str = "rie.";
-
-    let settings = init_settings();
-
-    let mut client = Client::new(&settings.discord_token, command_handler::Handler).expect("Err creating client");
-
-    
-    {
-        let mut data = client.data.write();
-        data.insert::<ShardManagerContainer>(Arc::clone(&client.shard_manager));
-    }
-
-    
-    let manager = client.shard_manager.clone();
-
-    thread::spawn(move || {
-        loop {
-            thread::sleep(Duration::from_secs(30));
-
-            let lock = manager.lock();
-            let shard_runners = lock.runners.lock();
-
-            for (id, runner) in shard_runners.iter() {
-                println!(
-                    "Shard ID {} is {} with a latency of {:?}",
-                    id,
-                    runner.stage,
-                    runner.latency,
-                );
-            }
+#[hook]
+async fn after(_ctx: &Context, _msg: &Message, command_name: &str, command_result: CommandResult){
+    let width = 4;
+    let discrim = format!("{:0width$}", _msg.author.discriminator, width = width);
+    if _msg.is_private() {
+        match command_result {
+            Ok(()) => println!("Log: Command '{}' executed by '{}#{}' ({}) in DMs", command_name, _msg.author.name, discrim, _msg.author.id),
+            Err(why) => println!("ERROR: An error ocurred on the command '{}'.\n{:?}", command_name, why)
         }
-    });
-    let (owners, bot_id) = match client.cache_and_http.http.get_current_application_info() {
+    } 
+    else {
+        match command_result {
+            Ok(()) => println!("Log: Command '{}' executed by '{}#{}' ({}) in guild: '{}' ({}).", command_name, _msg.author.name, discrim, _msg.author.id, _msg.guild(&_ctx.cache).await.unwrap().name,  _msg.guild(&_ctx.cache).await.unwrap().id),
+            Err(why) => println!("ERROR: An error ocurred on the command '{}'.\n{:?}", command_name, why)
+        }
+    }
+}
+
+#[tokio::main]
+async fn main() {
+
+    let _token = DatabaseWrapper::Database::getToken();
+
+
+    let prefix: &'static str = "rie.";
+    // println!("the current token: {}", _token);
+
+    let subscriber = FmtSubscriber::builder()
+        .with_env_filter(EnvFilter::from_default_env())
+        .finish();
+
+    tracing::subscriber::set_global_default(subscriber).expect("Failed to start the logger");
+
+    let http = Http::new_with_token(&_token);
+
+    // We will fetch your bot's owners and id
+    let (owners, _bot_id) = match http.get_current_application_info().await {
         Ok(info) => {
             let mut owners = HashSet::new();
             owners.insert(info.owner.id);
 
-            println!("Owners: {}, Bot ID: {}", info.owner.id, info.id);
             (owners, info.id)
-            
         },
         Err(why) => panic!("Could not access application info: {:?}", why),
     };
 
-    //TO-DO
-    client.with_framework(StandardFramework::new()
+    let framework = StandardFramework::new()
         .configure(|c| c
             .with_whitespace(true)
-            .on_mention(Some(bot_id))
+            .on_mention(Some(_bot_id))
             .owners(owners)
-            .prefix(prefix))
+            .prefix(prefix)
+            .case_insensitivity(true))
         .group(&command_handler::GENERAL_GROUP)
-        .group(&command_handler::MODERATION_GROUP)
-        .help(&HELP));
-    
+        .group(&command_handler::IMAGES_GROUP)
+        .help(&HELP)
+        .after(after);
 
-    if let Err(why) = client.start() {
+    let mut client = Client::builder(_token)
+        .event_handler(command_handler::Handler)
+        .framework(framework)
+        .await
+        .expect("Error creating client");
+    
+    {
+        let mut data = client.data.write().await;
+        data.insert::<ShardManagerContainer>(Arc::clone(&client.shard_manager));
+    }
+
+    let shard_manager = client.shard_manager.clone();
+
+    tokio::spawn(async move {
+        loop {
+            delay_for(Duration::from_secs(30)).await;
+
+            let lock = shard_manager.lock().await;
+            let shard_runners = lock.runners.lock().await;
+
+            for (id, runner) in shard_runners.iter() {
+                let _ = runner.stage;
+                let _ = runner.latency;
+                let _ = id;
+                /*println!(
+                    "Shard ID {} is {} with a latency of {:?}",
+                    id,
+                    runner.stage,
+                    runner.latency,
+                );*/
+            }
+        }
+    });
+    
+    DatabaseWrapper::Database::basicChecker();
+
+    if let Err(why) = client.start_autosharded().await {
         println!("Client error: {:?}", why);
     }
 }

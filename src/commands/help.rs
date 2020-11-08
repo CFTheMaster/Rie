@@ -2,13 +2,14 @@ use serenity::{
     client::Context,
     framework::standard::{macros::help, CommandResult, Args, CommandGroup, Command, HelpOptions},
     model::{prelude::{Message, UserId}},
+    utils::Colour,
 };
 use std::string::String;
 use std::collections::HashSet;
 
 
 #[help]
-fn help(ctx: &mut Context, message: &Message, args: Args, _help_options: &'static HelpOptions, groups: &[&'static CommandGroup], _owners: HashSet<UserId>,) -> CommandResult{
+async fn help(ctx: &Context, message: &Message, args: Args, _help_options: &'static HelpOptions, groups: &[&'static CommandGroup], _owners: HashSet<UserId>,) -> CommandResult{
     let mut s = String::new();
 
     match args.len() {
@@ -17,28 +18,29 @@ fn help(ctx: &mut Context, message: &Message, args: Args, _help_options: &'stati
         _ => s.push_str("Too many arguments."),
     };
 
+    let width = 4;
+    let discrim = format!("{:0width$}", message.author.discriminator, width = width);
 
-    if let Err(why) = message.channel_id.send_message(&ctx, |m| {
+    message.channel_id.send_message(&ctx, |m| {
         m.embed(|e| {
             e.title("Help Command");
             e.description(&s);
+            e.colour(Colour::new(6684876));
+            e.footer(|f| {
+                f.icon_url(message.author.avatar_url().unwrap());
+                f.text(format!("Executed by {}#{} ({})", message.author.name, discrim, message.author.id));
+
+                f
+            });
 
             e
         });
 
         m
-    }) {
-        println!("Error: {:?}", why);
-        let _ = message.channel_id.say(&ctx.http, "Missing permissions");
-    }
+    }).await?;
 
-    let g = message.guild(&ctx.cache).unwrap();
+    let _g = message.guild(&ctx.cache).await.unwrap();
     
-    let width = 4;
-    let discrim = format!("{:0width$}", message.author.discriminator, width = width);
-
-    println!("Processed command 'help' by user '{}#{}' ({}) in guild '{}' ({}) ", message.author.name, discrim, message.author.id, &g.read().name, &g.read().id);
-
     Ok(())
     
 }
