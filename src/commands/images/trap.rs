@@ -20,7 +20,7 @@ struct Image {
 #[example = "trap"]
 async fn trap(ctx: &Context, message: &Message) -> CommandResult {
     if !message.channel(&ctx).await.unwrap().is_nsfw() {
-        let _ = message.channel_id.say(&ctx.http, "This command must be run in an NSFW Channel.").await;
+        let _ = message.channel_id.say(&ctx.http, "This command must be run in an NSFW Channel.").await?;
 
         Ok(())
     } else {
