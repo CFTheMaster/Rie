@@ -79,7 +79,7 @@ impl EventHandler for Handler {
             //
             // This may seem unintuitive, but it models Discord's behaviour.
 
-            info!("{}#{} is connected on shard {}/{} and {} guild(s)",
+            println!("{}#{} is connected on shard {}/{} and {} guild(s)",
                 ready.user.name,
                 ready.user.discriminator,
                 shard[0],
