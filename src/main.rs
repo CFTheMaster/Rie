@@ -44,6 +44,8 @@ use std::{
 
 use tokio::time::delay_for;
 
+use dotenv::dotenv;
+use std::env;
 
 pub struct ShardManagerContainer;
 
@@ -71,11 +73,15 @@ async fn after(_ctx: &Context, _msg: &Message, command_name: &str, command_resul
 
 #[tokio::main]
 async fn main() {
-
+    dotenv().ok();
     let _token = DatabaseWrapper::Database::getToken();
 
+    let prefix: String = env::var("PREFIX")
+                .to_owned()
+                .expect("no prefix found in .env");
 
-    let prefix: &'static str = "rie.";
+    let strPrefix: &str = &prefix;
+
     // println!("the current token: {}", _token);
 
     let subscriber = FmtSubscriber::builder()
@@ -102,7 +108,7 @@ async fn main() {
             .with_whitespace(true)
             .on_mention(Some(_bot_id))
             .owners(owners)
-            .prefix(prefix)
+            .prefix(strPrefix)
             .case_insensitivity(true))
         .group(&command_handler::GENERAL_GROUP)
         .group(&command_handler::IMAGES_GROUP)
