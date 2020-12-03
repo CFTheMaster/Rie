@@ -11,6 +11,7 @@ mod DatabaseWrapper;
 mod utils;
 mod ReadImage;
 extern crate regex;
+extern crate eventual;
 
 use tracing_subscriber::{
     FmtSubscriber,

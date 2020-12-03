@@ -8,7 +8,8 @@ struct Image {
 
 pub fn getAnImage(uri: String) -> String{
     let mut list = curl::easy::List::new();
-    list.append("User-Agent:Rie#5977/0.1.0 (Serenity-Rust) CFsAPI/706219430912327742");
+    list.append("User-Agent:Rie#5977/0.1.0 (Serenity-Rust) CFsAPI/706219430912327742")
+        .expect("Couldn't set User-Agent");
     let mut handle = Easy::new();
     handle.url(&uri).unwrap();
     handle.http_headers(list);
