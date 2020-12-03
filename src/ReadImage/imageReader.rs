@@ -12,7 +12,8 @@ pub fn getAnImage(uri: String) -> String{
         .expect("Couldn't set User-Agent");
     let mut handle = Easy::new();
     handle.url(&uri).unwrap();
-    handle.http_headers(list);
+    handle.http_headers(list)
+        .expect("couldn't set headers!!!");
     let mut html: String = String::new();
     {
         let mut transfer = handle.transfer();
