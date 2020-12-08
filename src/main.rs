@@ -60,13 +60,13 @@ async fn after(_ctx: &Context, _msg: &Message, command_name: &str, command_resul
     let discrim = format!("{:0width$}", _msg.author.discriminator, width = width);
     if _msg.is_private() {
         match command_result {
-            Ok(()) => println!("Log: Command '{}' executed by '{}#{}' ({}) in DMs", command_name, _msg.author.name, discrim, _msg.author.id),
+            Ok(()) => println!("Log: Command \x1b[31m'{}'\x1b[0m executed by \x1b[35m'{}#{}' ({})\x1b[0m in DMs\x1b[0m", command_name, _msg.author.name, discrim, _msg.author.id),
             Err(why) => println!("ERROR: An error ocurred on the command '{}'.\n{:?}", command_name, why)
         }
     } 
     else {
         match command_result {
-            Ok(()) => println!("Log: Command '{}' executed by '{}#{}' ({}) in guild: '{}' ({}).", command_name, _msg.author.name, discrim, _msg.author.id, _msg.guild(&_ctx.cache).await.unwrap().name,  _msg.guild(&_ctx.cache).await.unwrap().id),
+            Ok(()) => println!("Log: Command \x1b[31m'{}'\x1b[0m executed by \x1b[35m'{}#{}' ({})\x1b[0m in guild: \x1b[32m'{}' ({}).\x1b[0m", command_name, _msg.author.name, discrim, _msg.author.id, _msg.guild(&_ctx.cache).await.unwrap().name,  _msg.guild(&_ctx.cache).await.unwrap().id),
             Err(why) => println!("ERROR: An error ocurred on the command '{}'.\n{:?}", command_name, why)
         }
     }
