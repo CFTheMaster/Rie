@@ -2,3 +2,4 @@
 .env
 /tokens/
 .idea
+*.lock
