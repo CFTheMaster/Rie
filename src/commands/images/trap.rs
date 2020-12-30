@@ -24,7 +24,7 @@ async fn trap(ctx: &Context, message: &Message) -> CommandResult {
 
         Ok(())
     } else {
-        let uri = "https://api.computerfreaker.cf/v1/trap".to_owned();
+        let uri = "trap".to_owned();
 
         let hentaiPic = getAnImage(uri);
         

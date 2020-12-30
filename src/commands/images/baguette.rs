@@ -20,7 +20,7 @@ struct Image {
 #[example = "baguette"]
 async fn baguette(ctx: &Context, message: &Message) -> CommandResult {
 
-    let uri = "https://api.computerfreaker.cf/v1/baguette".to_owned();
+    let uri = "baguette".to_owned();
 
     let cuteAnimePic = getAnImage(uri);
     

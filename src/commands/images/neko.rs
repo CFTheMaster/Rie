@@ -20,7 +20,7 @@ struct Image {
 #[example = "neko"]
 async fn neko(ctx: &Context, message: &Message) -> CommandResult {
 
-    let uri = "https://api.computerfreaker.cf/v1/neko".to_owned();
+    let uri = "neko".to_owned();
 
     let cuteAnimePic = getAnImage(uri);
     

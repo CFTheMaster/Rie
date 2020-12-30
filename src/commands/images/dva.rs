@@ -24,7 +24,7 @@ async fn dva(ctx: &Context, message: &Message) -> CommandResult {
 
         Ok(())
     } else {
-        let uri = "https://api.computerfreaker.cf/v1/dva".to_owned();
+        let uri = "dva".to_owned();
 
         let hentaiPic = getAnImage(uri);
         

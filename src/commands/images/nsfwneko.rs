@@ -24,7 +24,7 @@ async fn nsfwneko(ctx: &Context, message: &Message) -> CommandResult {
 
         Ok(())
     } else {
-        let uri = "https://api.computerfreaker.cf/v1/nsfwneko".to_owned();
+        let uri = "nsfwneko".to_owned();
 
         let hentaiPic = getAnImage(uri);
         

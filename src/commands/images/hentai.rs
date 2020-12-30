@@ -24,7 +24,7 @@ async fn hentai(ctx: &Context, message: &Message) -> CommandResult {
 
         Ok(())
     } else {
-        let uri = "https://api.computerfreaker.cf/v1/hentai".to_owned();
+        let uri = "hentai".to_owned();
 
         let hentaiPic = getAnImage(uri);
         
