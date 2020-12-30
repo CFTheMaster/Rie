@@ -16,7 +16,7 @@ serde = "1.0"
 typemap = "0.3"
 diesel = { version = "1.4", features = ["postgres"] }
 chrono = "0.4"
-rand = "0.8"
+rand = "0.7"
 regex = "1.4"
 dotenv = "0.15"
 serde_json = "1.0"
