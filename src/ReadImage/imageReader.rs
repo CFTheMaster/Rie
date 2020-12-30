@@ -7,8 +7,8 @@ struct Image {
 }
 
 pub fn getAnImage(uri: String) -> String{
-    let mut url = "https://api.computerfreaker.cf/v1/";
-    url.append(uri);
+    let mut url: String = "https://api.computerfreaker.cf/v1/".to_string();
+    url.push_str(&uri);
 
     let mut list = curl::easy::List::new();
     list.append("User-Agent:Rie#5977/0.1.0 (Serenity-Rust) CFsAPI/706219430912327742")
