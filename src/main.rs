@@ -43,7 +43,7 @@ use std::{
     time::Duration
 };
 
-use tokio::time::delay_for;
+use tokio::time::sleep;
 
 use dotenv::dotenv;
 use std::env;
@@ -131,15 +131,13 @@ async fn main() {
 
     tokio::spawn(async move {
         loop {
-            delay_for(Duration::from_secs(30)).await;
+            sleep(Duration::from_secs(30)).await;
 
             let lock = shard_manager.lock().await;
             let shard_runners = lock.runners.lock().await;
 
             for (id, runner) in shard_runners.iter() {
-                let _ = runner.stage;
                 let _ = runner.latency;
-                let _ = id;
                 /*println!(
                     "Shard ID {} is {} with a latency of {:?}",
                     id,

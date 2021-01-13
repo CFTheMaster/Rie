@@ -6,8 +6,7 @@ use serenity::{
 };
 use crate::ShardManagerContainer;
 
-use std::process::Command;
-
+use tokio::process::Command;
 
 #[command]
 #[description = "Checks Discord's API / message latency."]
@@ -30,6 +29,8 @@ async fn ping(ctx: &Context, message: &Message) -> CommandResult {
     let manager = shard_manager.lock().await;
     let runners = manager.runners.lock().await;
 
+
+
     let runner = match runners.get(&ShardId(ctx.shard_id)) {
         Some(runner) => runner,
         None => {
@@ -40,29 +41,12 @@ async fn ping(ctx: &Context, message: &Message) -> CommandResult {
     };
 
 
+
     // Shards are backed by a "shard runner" responsible for processing events
     // over the shard, so we'll get the information about the shard runner for
     // the shard this command was sent over.
 
-    let pinger = if cfg!(target_os = "windows") {
-        Command::new("cmd")
-        .args(&["/C","curl --output NUL --write-out %{time_connect} https://discord.com/api/v8/"])
-        .output()
-        .expect("failed to execute process")
-    } else {
-        Command::new("sh")
-        .arg("-c")
-        .arg("curl --output /dev/null --write-out %{time_connect} https://discord.com/api/v8/")
-        .output()
-        .expect("failed to execute process")
-    };
-
-    let mut pingponger = String::new();
-
-    pingponger.push_str(&String::from_utf8(pinger.stdout).unwrap());
-    let _trimmed = pingponger.to_owned();
-
-    message.reply(&ctx, &format!("The shard latency is {:?}, Websocket latency is {} seconds", runner.latency, _trimmed)).await?;
+    message.reply(&ctx, &format!("The shard latency is {:?}", runner.latency)).await?;
 
     Ok(())
 

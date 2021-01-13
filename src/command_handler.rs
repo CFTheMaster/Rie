@@ -80,11 +80,11 @@ impl EventHandler for Handler {
 
             let split: Vec<&str> = pressence.split("__").collect();
 
-            let randomText = split[rand::thread_rng().gen_range(0, split.len())];
+            let randomText = split[rand::thread_rng().gen_range(0..=split.len())];
 
             
 
-            let rng = rand::thread_rng().gen_range(0, 2);
+            let rng = rand::thread_rng().gen_range(0..=2);
 
             match rng{
                 0 => ctx.set_presence(Some(Activity::playing(randomText)), status_dnd).await,
@@ -120,11 +120,11 @@ async fn changeActivity(ctx: Context){
 
         let split: Vec<&str> = pressence.split("__").collect();
 
-        let randomText = split[rand::thread_rng().gen_range(0, split.len())];
+        let randomText = split[rand::thread_rng().gen_range(0..=split.len())];
 
         
 
-        let rng = rand::thread_rng().gen_range(0, 2);
+        let rng = rand::thread_rng().gen_range(0..=2);
 
         match rng{
             0 => ctx.set_presence(Some(Activity::playing(randomText)), status_dnd).await,
