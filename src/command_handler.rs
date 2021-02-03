@@ -120,7 +120,9 @@ async fn changeActivity(ctx: Context){
 
         let split: Vec<&str> = pressence.split("__").collect();
 
-        let randomText = split[rand::thread_rng().gen_range(0..=split.len())];
+        let totalSplit = split.len() - 1;
+
+        let randomText = split[rand::thread_rng().gen_range(0..=totalSplit)];
 
         
 
